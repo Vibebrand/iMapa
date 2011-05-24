@@ -2,6 +2,7 @@
 #include "ventanaprincipal.h"
 #include "MarbleWidget.h"
 #include "vista/ContenedorPrincipal.h"
+#include "qtuio.h"
 #include <QtGui>
 
 int main(int argc, char *argv[])
@@ -16,9 +17,10 @@ int main(int argc, char *argv[])
 
     ContenedorPrincipal contenedor(0, map);
 
+    QTuio tuio(contenedor.obtenerRepresentacionVista());
     contenedor.obtenerRepresentacionVista()->showFullScreen();
 
-
+    tuio.run();
     int salida = a.exec();
 
 
