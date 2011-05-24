@@ -48,8 +48,10 @@ QTuio::QTuio(QObject *parent)
     theMainWindow = qobject_cast<QWidget *>(parent);
     theView = qobject_cast<QGraphicsView *>(parent);
     if (theView)
+    {
         theScene = theView->scene();
-    else
+        qDebug() << "Si es theView, theScene = " << theScene;
+    } else
         theScene = qobject_cast<QGraphicsScene *>(parent);
 }
 
@@ -105,13 +107,19 @@ bool QTuio::tuioToQt(TUIO::TuioCursor *tcur, QEvent::Type eventType)
                              (int)screenPos.y() - theView->geometry().y());
             touchPoint.setPos(pos);
             touchPoint.setScenePos(theView->mapToScene(pos));
+
+            qDebug() << "theView y theScene != null, pos = " << pos;
         } else {
+            qDebug() << "theView == null, theScene != null";
+
             foreach (QGraphicsView *view, theScene->views()) {
                 if (view->isActiveWindow()) {
                     const QPoint pos((int)screenPos.x() - view->geometry().x(),
                                      (int)screenPos.y() - view->geometry().y());
                     touchPoint.setPos(pos);
                     touchPoint.setScenePos(view->mapToScene(pos));
+
+                    qDebug() << "theView == null, theScene != null ... pos = " << pos << " view = " << view->objectName();
                 }
             }
         }
@@ -184,12 +192,20 @@ bool QTuio::tuioToQt(TUIO::TuioCursor *tcur, QEvent::Type eventType)
 
     QEvent *touchEvent = new QTouchEvent(eventType, QTouchEvent::TouchScreen, Qt::NoModifier, touchPointStates, qTouchPointMap->values());
 
-    if (theView && theView->viewport())
+    qDebug() << "Post Event";
+    if (theView && theView->viewport() )
+    {
         qApp->postEvent(theView->viewport(), touchEvent);
-    else if (theScene)
+        qDebug() << "Post Event: theView->viewport()";
+    } else if (theScene)
+    {
         qApp->postEvent(theScene, touchEvent);
-    else
+        qDebug() << "Post Event: theScene: "  << touchEvent;
+    } else
+    {
         qApp->postEvent(theMainWindow, touchEvent);
+        qDebug() << "Post Event: theMainWindow";
+    }
 
     if (eventType == QEvent::TouchEnd)
         qTouchPointMap->remove(tcur->getSessionID());

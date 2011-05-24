@@ -1,5 +1,6 @@
 #include "ContenedorPrincipal.h"
-
+#include <QGLWidget>
+#include <QGLFormat>
 
 class GraphicsView: public QGraphicsView
 {
@@ -29,6 +30,8 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
     widgetDeFondo(awidgetDeFondo)
 {
     representacionVista = new GraphicsView(0, awidgetDeFondo);
+    representacionVista->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+    representacionVista->setObjectName("representacionVista");
 
     representacionVista->setScene(&escena);
     representacionVista->setRenderHint(QPainter::Antialiasing);
