@@ -11,9 +11,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        ventanaprincipal.cpp
+        ventanaprincipal.cpp \
+    vista/ContenedorPrincipal.cpp
 
-HEADERS  += ventanaprincipal.h
+HEADERS  += ventanaprincipal.h \
+    vista/ContenedorPrincipal.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
