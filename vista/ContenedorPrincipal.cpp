@@ -1,6 +1,14 @@
 #include "ContenedorPrincipal.h"
+
+#include "IGestionaEvento.h"
+
 #include <QGLWidget>
 #include <QGLFormat>
+#include <QDebug>
+#include <QCoreApplication>
+#include <QApplication>
+
+#define app (static_cast<QApplication *>(QCoreApplication::instance()))
 
 class GraphicsView: public QGraphicsView
 {
@@ -21,6 +29,27 @@ protected:
 
         QGraphicsView::resizeEvent(event);
     }
+
+    bool viewportEvent(QEvent *event)
+    {
+        if(QTouchEvent * evento = dynamic_cast<QTouchEvent*>(event))
+        {
+            qDebug() << "Posteando evento a escena";
+            QGraphicsItem * item = scene()->itemAt( evento->touchPoints().first().screenPos().toPoint());
+            if(QGraphicsProxyWidget * graphicWidget = dynamic_cast<QGraphicsProxyWidget *>(item))
+            {
+                if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(graphicWidget->widget()))
+                {
+                    qDebug() << "Posteando evento a widget: " << graphicWidget->widget()->objectName();
+                    if(gestor->gestionaEvento(event))
+                        return true;
+                }
+            }
+        }
+
+        return QGraphicsView::viewportEvent(event);
+    }
+
  private:
     QWidget *widgetFondo;
 };
@@ -37,13 +66,14 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
     representacionVista->setRenderHint(QPainter::Antialiasing);
     representacionVista->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
-    escena.addWidget(awidgetDeFondo);
+    escena.addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }
 
 void ContenedorPrincipal::agregarWidget(QString nombre, QWidget *widget)
 {
-    widgetsInternos.insert(nombre, WidgetInterno(widget,
-                                                  escena.addWidget(widget)));
+    WidgetInterno wi = WidgetInterno(widget, escena.addWidget(widget));
+    wi.proxy->setAcceptTouchEvents(true);
+    widgetsInternos.insert(nombre, wi);
 }
 
 ContenedorPrincipal::~ContenedorPrincipal()

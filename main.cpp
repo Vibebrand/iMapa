@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
-#include "ventanaprincipal.h"
 #include "MarbleWidget.h"
+#include "vista/mapa.h"
 #include "vista/ContenedorPrincipal.h"
 #include "qtuio.h"
 #include <QtGui>
@@ -10,10 +10,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QPushButton * pushButton = new QPushButton("Hola mundo");
-    Marble::MarbleWidget* map = new Marble::MarbleWidget;
+    Mapa* map = new Mapa;
 
     map->setObjectName("mapa");
-   // map->addGeoDataFile("");
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::NormalQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
@@ -30,8 +29,15 @@ int main(int argc, char *argv[])
     QTuio tuio(view);//view->scene());
 
     contenedor.obtenerRepresentacionVista()->showFullScreen();
-
     tuio.run();
+
+
+    //Fake
+    QPushButton * button = new QPushButton("hola");
+    button->setObjectName("boton");
+    contenedor.agregarWidget("boton", button);
+    button->setAttribute(Qt::WA_AcceptTouchEvents);
+
     int salida = a.exec();
 
 
