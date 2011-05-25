@@ -32,20 +32,38 @@ protected:
 
     bool viewportEvent(QEvent *event)
     {
+        // TODO habilitar y enviar gestos si son generados
+        if(QGestureEvent * gesture = dynamic_cast<QGestureEvent*>(event))
+            qDebug() << "Gesto" << gesture;
+
+
         if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchEnd)
         {
             QTouchEvent * evento = static_cast<QTouchEvent*>(event);
 
             qDebug() << "Posteando evento a escena";
 
-            QGraphicsItem * item = scene()->itemAt( evento->touchPoints().first().screenPos().toPoint());
-            if(QGraphicsProxyWidget * graphicWidget = dynamic_cast<QGraphicsProxyWidget *>(item))
+            QList<QTouchEvent::TouchPoint> listaTouch = evento->touchPoints();
+
+            QSet<QGraphicsItem *> setItems;
+
+            for(QList<QTouchEvent::TouchPoint>::iterator it = listaTouch.begin(); it != listaTouch.end(); ++it)
             {
-                if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(graphicWidget->widget()))
+                QGraphicsItem * item = scene()->itemAt((*it).screenPos().toPoint());
+
+                if(!setItems.contains(item))
                 {
-                    qDebug() << "Posteando evento a widget: " << graphicWidget->widget()->objectName();
-                    if(gestor->gestionaEvento(event))
-                        return true;
+                    setItems.insert(item);
+
+                    if(QGraphicsProxyWidget * graphicWidget = dynamic_cast<QGraphicsProxyWidget *>(item))
+                    {
+                        if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(graphicWidget->widget()))
+                        {
+                            qDebug() << "Posteando evento a widget: " << graphicWidget->widget()->objectName();
+                            if(gestor->gestionaEvento(event))
+                                return true;
+                        }
+                    }
                 }
             }
         }
