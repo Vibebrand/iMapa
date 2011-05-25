@@ -32,9 +32,12 @@ protected:
 
     bool viewportEvent(QEvent *event)
     {
-        if(QTouchEvent * evento = dynamic_cast<QTouchEvent*>(event))
+        if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchEnd)
         {
+            QTouchEvent * evento = static_cast<QTouchEvent*>(event);
+
             qDebug() << "Posteando evento a escena";
+
             QGraphicsItem * item = scene()->itemAt( evento->touchPoints().first().screenPos().toPoint());
             if(QGraphicsProxyWidget * graphicWidget = dynamic_cast<QGraphicsProxyWidget *>(item))
             {
