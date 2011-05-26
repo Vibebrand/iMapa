@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     map->setObjectName("mapa");
     map->setMapThemeId("earth/srtm/srtm.dgml");
-    map->setMapQuality(Marble::NormalQuality,Marble::Still);
+    map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
 
     ContenedorPrincipal contenedor(0, map);

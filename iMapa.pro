@@ -16,7 +16,9 @@ SOURCES += main.cpp\
 HEADERS  += \
     vista/ContenedorPrincipal.h \
     vista/IGestionaEvento.h \
-    vista/mapa.h
+    vista/mapa.h \
+    vista/IDelegadoControladorPluginBurbujas.h \
+    vista/IDelegadoGestorSeleccion.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
