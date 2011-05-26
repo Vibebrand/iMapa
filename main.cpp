@@ -5,11 +5,10 @@
 #include "qtuio.h"
 #include <QtGui>
 #include <QGraphicsView>
-
+#include <GeoDataCoordinates.h>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QPushButton * pushButton = new QPushButton("Hola mundo");
     Mapa* map = new Mapa;
 
     map->setObjectName("mapa");
@@ -21,27 +20,15 @@ int main(int argc, char *argv[])
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor.obtenerRepresentacionVista());
 
-    map->setAttribute(Qt::WA_AcceptTouchEvents);
-    view->setAttribute(Qt::WA_AcceptTouchEvents);
-    view->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
-    contenedor.obtenerRepresentacionVista()->setAttribute(Qt::WA_AcceptTouchEvents);
-
-    QTuio tuio(view);//view->scene());
-
+    QTuio tuio(view);
     contenedor.obtenerRepresentacionVista()->showFullScreen();
     tuio.run();
 
 
-    //Fake
-    QPushButton * button = new QPushButton("hola");
-    button->setObjectName("boton");
-    contenedor.agregarWidget("boton", button);
-    button->setAttribute(Qt::WA_AcceptTouchEvents);
 
     int salida = a.exec();
 
 
-    delete pushButton;
     delete map;
     return salida;
 }

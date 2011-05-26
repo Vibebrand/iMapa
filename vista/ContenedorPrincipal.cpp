@@ -8,7 +8,6 @@
 #include <QCoreApplication>
 #include <QApplication>
 
-#define app (static_cast<QApplication *>(QCoreApplication::instance()))
 
 class GraphicsView: public QGraphicsView
 {
@@ -17,6 +16,8 @@ public:
         QGraphicsView(parent)
     {
         widgetFondo = widget;
+        setAttribute(Qt::WA_AcceptTouchEvents);
+        viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
     }
 protected:
     void resizeEvent(QResizeEvent *event)
@@ -32,21 +33,9 @@ protected:
 
     bool viewportEvent(QEvent *event)
     {
-        if(event->type() == QEvent::Gesture || event->type() == QEvent::GestureOverride)
-        {
-            QGestureEvent * gesto = static_cast<QGestureEvent *>(event);
-            gesto->setWidget(widgetFondo);
-            if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(widgetFondo))
-            {
-                qDebug() << "Enviando gesto:" << widgetFondo->objectName() ;
-                if(gestor->gestionaEvento(event))
-                    return true;
-            }
-        } else if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchUpdate)
+        if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchUpdate)
         {
             QTouchEvent * evento = static_cast<QTouchEvent*>(event);
-
-            qDebug() << "Posteando evento a escena";
 
             QList<QTouchEvent::TouchPoint> listaTouch = evento->touchPoints();
 
@@ -61,20 +50,12 @@ protected:
                     setItems.insert(item);
 
                     if(QGraphicsProxyWidget * graphicWidget = dynamic_cast<QGraphicsProxyWidget *>(item))
-                    {
                         if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(graphicWidget->widget()))
-                        {
-                            qDebug() << "Touch points: " << evento->touchPoints().count();
-
-                            qDebug() << "Posteando evento a widget: " << graphicWidget->widget()->objectName();
                             if(gestor->gestionaEvento(event))
                                 return true;
-                        }
-                    }
                 }
             }
         }
-
         return QGraphicsView::viewportEvent(event);
     }
 
@@ -88,11 +69,10 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
 {
     representacionVista = new GraphicsView(0, awidgetDeFondo);
     representacionVista->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-    representacionVista->setObjectName("representacionVista");
 
     representacionVista->setScene(&escena);
     representacionVista->setRenderHint(QPainter::Antialiasing);
-    representacionVista->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    representacionVista->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 
     escena.addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }
