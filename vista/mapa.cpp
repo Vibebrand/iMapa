@@ -1,4 +1,5 @@
 #include "mapa.h"
+#include "MarbleWidgetInputHandler.h"
 
 Mapa::Mapa()
 {
@@ -6,5 +7,7 @@ Mapa::Mapa()
 
 bool Mapa::gestionaEvento(QEvent * evento)
 {
-    return event(evento);
+    if(!inputHandler()->eventFilter(this, evento))
+        return event(evento);
+    return true;
 }
