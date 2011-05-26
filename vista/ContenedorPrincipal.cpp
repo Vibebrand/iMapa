@@ -32,12 +32,17 @@ protected:
 
     bool viewportEvent(QEvent *event)
     {
-        // TODO habilitar y enviar gestos si son generados
-        if(QGestureEvent * gesture = dynamic_cast<QGestureEvent*>(event))
-            qDebug() << "Gesto" << gesture;
-
-
-        if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchEnd)
+        if(event->type() == QEvent::Gesture || event->type() == QEvent::GestureOverride)
+        {
+            QGestureEvent * gesto = static_cast<QGestureEvent *>(event);
+            gesto->setWidget(widgetFondo);
+            if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(widgetFondo))
+            {
+                qDebug() << "Enviando gesto:" << widgetFondo->objectName() ;
+                if(gestor->gestionaEvento(event))
+                    return true;
+            }
+        } else if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchUpdate)
         {
             QTouchEvent * evento = static_cast<QTouchEvent*>(event);
 
@@ -59,6 +64,8 @@ protected:
                     {
                         if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(graphicWidget->widget()))
                         {
+                            qDebug() << "Touch points: " << evento->touchPoints().count();
+
                             qDebug() << "Posteando evento a widget: " << graphicWidget->widget()->objectName();
                             if(gestor->gestionaEvento(event))
                                 return true;
