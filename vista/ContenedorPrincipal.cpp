@@ -32,7 +32,19 @@ protected:
 
     bool viewportEvent(QEvent *event)
     {
-        if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchEnd)
+        if(event->type() == QEvent::Gesture || event->type() == QEvent::GestureOverride)
+        {
+            QGestureEvent * gesto = static_cast<QGestureEvent *>(event);
+            gesto->setWidget(widgetFondo);
+            if(IGestionaEvento * gestor = dynamic_cast<IGestionaEvento*>(widgetFondo))
+            {
+                qDebug() << "Enviando gesto:" << widgetFondo->objectName() ;
+                if(gestor->gestionaEvento(event))
+                    return true;
+            }
+        }
+
+        if(event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchUpdate)
         {
             QTouchEvent * evento = static_cast<QTouchEvent*>(event);
 
