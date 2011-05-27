@@ -18,7 +18,8 @@ HEADERS  += \
     vista/IGestionaEvento.h \
     vista/mapa.h \
     vista/IDelegadoControladorPluginBurbujas.h \
-    vista/IDelegadoGestorSeleccion.h
+    vista/IDelegadoGestorSeleccion.h \
+    vista/IDelegadoObjetoBurbuja.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
