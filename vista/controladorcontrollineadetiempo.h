@@ -15,9 +15,12 @@ public:
     Q_INVOKABLE void playClicked();
     Q_INVOKABLE void adelanteClicked();
 
-
     QWidget * widget();
+
 signals:
+    void atras();
+    void play();
+    void adelante();
 
 public slots:
 

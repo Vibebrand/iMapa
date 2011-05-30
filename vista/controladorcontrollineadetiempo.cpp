@@ -17,17 +17,17 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
 
 void ControladorControlLineaDeTiempo::atrasClicked()
 {
-    qDebug() << "Atras";
+    emit atras();
 }
 
 void ControladorControlLineaDeTiempo::playClicked()
 {
-    qDebug() << "Play";
+    emit play();
 }
 
 void ControladorControlLineaDeTiempo::adelanteClicked()
 {
-    qDebug() << "Adelante";
+    emit adelante();
 }
 
 QWidget * ControladorControlLineaDeTiempo::widget()
