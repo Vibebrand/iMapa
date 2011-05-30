@@ -45,7 +45,7 @@ include( 3rdparty.pri )
 #Fin qTUIO
 
 RESOURCES += \
-    vista/imagenes.qrc
+    vista/qml.qrc
 
 OTHER_FILES += \
     vista/ControlLineaDeTiempo.qml

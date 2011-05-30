@@ -9,7 +9,7 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
     QObject(parent)
 {
     view.rootContext()->setContextProperty("delegado", this);
-    view.setSource(QUrl("vista/ControlLineaDeTiempo.qml"));
+    view.setSource(QUrl("qrc:/qml/ControlLineaDeTiempo.qml"));
 
     view.setAttribute(Qt::WA_TranslucentBackground);
     view.setStyleSheet("background:transparent;");
