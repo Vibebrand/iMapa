@@ -6,9 +6,9 @@
 class IServicioInformacionEstadistica
 {
 public:
-    virtual int obtenerPeriodos();
+    virtual int obtenerPeriodos() = 0;
     virtual QList<EntidadFederativa>* obtenerPeriodo(int periodo)=0;
-    virtual qreal obtenerTotalDePoblacionPorPeriodo();
+    virtual qreal obtenerTotalDePoblacionPorPeriodo() = 0;
 };
 
 #endif // ISERVICIOINFORMACIONESTADISTICA_H
