@@ -13,7 +13,8 @@ SOURCES += main.cpp\
     vista/ContenedorPrincipal.cpp \
     vista/mapa.cpp \
     vista/ControladorDeBurbujas.cpp \
-    servicio/ServicioInformacionEstadistica.cpp
+    servicio/ServicioInformacionEstadistica.cpp \
+    vista/controladorcontrollineadetiempo.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     servicio/IServicioInformacionEstadistica.h \
     modelo/EntidadFederativa.h \
     modelo/PoblacionPorRangoDeEdad.h \
-    servicio/ServicioInformacionEstadistica.h
+    servicio/ServicioInformacionEstadistica.h \
+    vista/controladorcontrollineadetiempo.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
@@ -51,3 +53,9 @@ SOURCES += qtuio.cpp
 include( 3rdparty.pri )
 
 #Fin qTUIO
+
+RESOURCES += \
+    vista/qml.qrc
+
+OTHER_FILES += \
+    vista/ControlLineaDeTiempo.qml

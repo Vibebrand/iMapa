@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>ControlLineaDeTiempo.qml</file>
+    </qresource>
+    <qresource prefix="/qml/Imagenes">
+        <file alias="backButton.png">Imagenes/backButton.png</file>
+        <file alias="forwardButton.png">Imagenes/forwardButton.png</file>
+        <file alias="playButton.png">Imagenes/playButton.png</file>
+    </qresource>
+</RCC>
