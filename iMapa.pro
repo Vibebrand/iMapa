@@ -41,3 +41,9 @@ SOURCES += qtuio.cpp
 include( 3rdparty.pri )
 
 #Fin qTUIO
+
+RESOURCES += \
+    vista/imagenes.qrc
+
+OTHER_FILES += \
+    vista/ControlLineaDeTiempo.qml
