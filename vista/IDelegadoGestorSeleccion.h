@@ -7,7 +7,7 @@ class IDelegeadoGestorSeleccion
 {
 
 public:
-    virtual void ElementoSeleccionado(QString nombre) = 0;
+    virtual void elementoSeleccionado(QString nombre) = 0;
 
 };
 

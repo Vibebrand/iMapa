@@ -3,6 +3,10 @@
 
 #include <QColor>
 
+/*!
+Delegado implemantado sobre AbsractItems de marble para lamanipulacion
+directa del QML en su representacion grafica
+*/
 class IDelegadoObjetoBurbuja
 {
 public:
