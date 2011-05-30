@@ -2,6 +2,7 @@
 #include "MarbleWidget.h"
 #include "vista/mapa.h"
 #include "vista/ContenedorPrincipal.h"
+#include "vista/controladorcontrollineadetiempo.h"
 #include "qtuio.h"
 #include <QtGui>
 #include <QGraphicsView>
@@ -9,6 +10,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
+
     Mapa* map = new Mapa;
 
     map->setObjectName("mapa");
@@ -17,6 +20,7 @@ int main(int argc, char *argv[])
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
 
     ContenedorPrincipal contenedor(0, map);
+    contenedor.agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor.obtenerRepresentacionVista());
 
@@ -25,10 +29,11 @@ int main(int argc, char *argv[])
     tuio.run();
 
 
-
     int salida = a.exec();
 
 
     delete map;
+    delete lineaDeTiempo;
+
     return salida;
 }

@@ -4,14 +4,11 @@ Rectangle {
     id: control
     width: 110
     height: 34
-    radius: 17
+    radius: 10
+    color: "white"
     border.color: "#000000"
 
-
     Row {
-
-        anchors.fill: control
-
         BorderImage {
             id: botonAtras
             width: 36
@@ -21,7 +18,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-
+                    delegado.atrasClicked();
                 }
             }
         }
@@ -35,7 +32,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-
+                    delegado.playClicked();
                 }
             }
         }
@@ -49,7 +46,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-
+                    delegado.adelanteClicked();
                 }
             }
         }
