@@ -7,8 +7,6 @@
 #include <QWidget>
 #include <QMap>
 
-class GraphicsView;
-
 struct WidgetInterno{
     QWidget *widget;
     QGraphicsProxyWidget *proxy;
@@ -29,7 +27,7 @@ public:
 private:
     QWidget* widgetDeFondo;
     QGraphicsScene escena;
-    GraphicsView* representacionVista;
+    QGraphicsView * representacionVista;
     QMap<QString, WidgetInterno> widgetsInternos;
 };
 
