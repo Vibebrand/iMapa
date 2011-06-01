@@ -18,8 +18,8 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
         Burbuja burbuja;
         burbuja.nombre = "burbuja";
         burbuja.color = Qt::red;
-        burbuja.latitud = -102.3;
-        burbuja.longitiud = 21.883333;
+        burbuja.longitiud = -102.3;
+        burbuja.latitud = 21.883333;
         burbuja.radio = 100;
 
         /*burbuja.nombre = entidad.nombre;
