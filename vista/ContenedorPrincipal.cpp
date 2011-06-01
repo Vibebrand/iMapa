@@ -67,19 +67,20 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
     QObject(parent),
     widgetDeFondo(awidgetDeFondo)
 {
+    escena = new QGraphicsScene();
     representacionVista = new GraphicsView(0, awidgetDeFondo);
     representacionVista->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 
-    representacionVista->setScene(&escena);
+    representacionVista->setScene(escena);
     representacionVista->setRenderHint(QPainter::Antialiasing);
     representacionVista->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 
-    escena.addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
+    escena->addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }
 
 void ContenedorPrincipal::agregarWidget(QString nombre, QWidget *widget)
 {
-    WidgetInterno wi = WidgetInterno(widget, escena.addWidget(widget));
+    WidgetInterno wi = WidgetInterno(widget, escena->addWidget(widget));
     wi.proxy->setAcceptTouchEvents(true);
     widgetsInternos.insert(nombre, wi);
 }

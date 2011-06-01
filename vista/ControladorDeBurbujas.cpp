@@ -1,10 +1,10 @@
 #include "ControladorDeBurbujas.h"
 #include <QDebug>
 
-ControladorDeBurbujas::ControladorDeBurbujas(QObject *parent):
-    QObject(parent)
+ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * servicioInfoEstadistica, QObject *parent):
+    QObject(parent), _servicioInformacionEstadistica(servicioInfoEstadistica),
+    _controladorPluginBurbujas(0)
 {
-    _servicioInformacionEstadistica = new ServicioInformacionEstadistica();
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
@@ -18,8 +18,8 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
         Burbuja burbuja;
         burbuja.nombre = "burbuja";
         burbuja.color = Qt::red;
-        burbuja.latitud = -102.3;
-        burbuja.longitiud = 21.883333;
+        burbuja.longitiud = -102.3;
+        burbuja.latitud = 21.883333;
         burbuja.radio = 100;
 
         /*burbuja.nombre = entidad.nombre;
@@ -37,13 +37,13 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
 
 void ControladorDeBurbujas::elementoSeleccionado(QString nombre)
 {
-    qDebug() << nombre;
-    foreach(EntidadFederativa entidad, (*_entidadesFederativasActivaas))
-        if(entidad.nombre.compare(nombre))
-        {
-            qDebug()<< entidad.nombre.toLatin1();
-            break;
-        }
+    if(_entidadesFederativasActivaas)
+        foreach(EntidadFederativa entidad, (*_entidadesFederativasActivaas))
+            if(entidad.nombre.compare(nombre))
+            {
+                qDebug()<< entidad.nombre.toLatin1();
+                break;
+            }
 }
 
 void ControladorDeBurbujas::asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas *controladorPluginBurbujas)
@@ -54,6 +54,6 @@ void ControladorDeBurbujas::asignarDelegadoControladorPluginBurbujas(IDelegadoCo
 //TODO verificar que otros objetos se deben de destruir
 ControladorDeBurbujas::~ControladorDeBurbujas()
 {
-    delete _servicioInformacionEstadistica;
-    delete _entidadesFederativasActivaas;
+    if(_entidadesFederativasActivaas)
+        delete _entidadesFederativasActivaas;
 }

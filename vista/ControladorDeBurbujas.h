@@ -21,7 +21,7 @@ class ControladorDeBurbujas:public QObject, public IDelegeadoGestorSeleccion
     Q_OBJECT
 
 public:
-    ControladorDeBurbujas(QObject *parent = 0);
+    ControladorDeBurbujas(IServicioInformacionEstadistica *, QObject *parent = 0);
     ~ControladorDeBurbujas();
     void elementoSeleccionado(QString nombre);
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
