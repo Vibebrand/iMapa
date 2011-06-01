@@ -21,24 +21,23 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    Mapa* map = new Mapa;
     IServicioInformacionEstadistica * servicioInfoEstadistica = new ServicioInformacionEstadistica;
     ControladorDeBurbujas * controladorBurbujas = new ControladorDeBurbujas(servicioInfoEstadistica);
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
-
-    Mapa* map = new Mapa;
+    ContenedorPrincipal * contenedor = new ContenedorPrincipal(0, map);
 
     map->setObjectName("mapa");
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
 
-    ContenedorPrincipal contenedor(0, map);
-    contenedor.agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
+    contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
-    QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor.obtenerRepresentacionVista());
+    QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());
 
     QTuio tuio(view);
-    contenedor.obtenerRepresentacionVista()->showFullScreen();
+    contenedor->obtenerRepresentacionVista()->showFullScreen();
     tuio.run();
 
     enlazarPluginAControlador(map, controladorBurbujas);
@@ -46,11 +45,11 @@ int main(int argc, char *argv[])
 
     int salida = a.exec();
 
-
-    delete map;
+    delete contenedor;
     delete lineaDeTiempo;
     delete controladorBurbujas;
     delete servicioInfoEstadistica;
+    delete map;
 
     return salida;
 }

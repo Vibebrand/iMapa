@@ -2,7 +2,8 @@
 #include <QDebug>
 
 ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * servicioInfoEstadistica, QObject *parent):
-    QObject(parent), _servicioInformacionEstadistica(servicioInfoEstadistica)
+    QObject(parent), _servicioInformacionEstadistica(servicioInfoEstadistica),
+    _controladorPluginBurbujas(0)
 {
 }
 

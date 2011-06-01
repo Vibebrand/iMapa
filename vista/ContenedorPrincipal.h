@@ -26,7 +26,7 @@ public:
     QWidget* obtenerRepresentacionVista() const;
 private:
     QWidget* widgetDeFondo;
-    QGraphicsScene escena;
+    QGraphicsScene *escena;
     QGraphicsView * representacionVista;
     QMap<QString, WidgetInterno> widgetsInternos;
 };
