@@ -1,11 +1,13 @@
 #ifndef CONTROLADORDEBURBUJAS_H
 #define CONTROLADORDEBURBUJAS_H
 
+#include <QMap>
+#include <QString>
+
 #include "IDelegadoControladorPluginBurbujas.h"
 #include "IDelegadoGestorSeleccion.h"
 #include "IDelegadoObjetoBurbuja.h"
-#include <QMap>
-#include <QString>
+
 #include "servicio/ServicioInformacionEstadistica.h"
 
 /*!
@@ -19,7 +21,7 @@ class ControladorDeBurbujas:public QObject, public IDelegeadoGestorSeleccion
     Q_OBJECT
 
 public:
-    ControladorDeBurbujas(QObject *parent);
+    ControladorDeBurbujas(QObject *parent = 0);
     ~ControladorDeBurbujas();
     void elementoSeleccionado(QString nombre);
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);

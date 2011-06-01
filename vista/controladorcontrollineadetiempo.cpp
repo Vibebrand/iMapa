@@ -22,6 +22,7 @@ void ControladorControlLineaDeTiempo::atrasClicked()
 
 void ControladorControlLineaDeTiempo::playClicked()
 {
+    qDebug() << "Play clicked";
     emit play();
 }
 
