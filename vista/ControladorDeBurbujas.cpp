@@ -3,7 +3,7 @@
 
 ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * servicioInfoEstadistica, QObject *parent):
     QObject(parent), _servicioInformacionEstadistica(servicioInfoEstadistica),
-    _controladorPluginBurbujas(0)
+    _controladorPluginBurbujas(0), _entidadesFederativasActivaas(0)
 {
 }
 
