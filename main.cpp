@@ -11,6 +11,7 @@
 #include "vista/ContenedorPrincipal.h"
 #include "vista/controladorcontrollineadetiempo.h"
 #include "vista/IDelegadoControladorPluginBurbujas.h"
+#include "servicio/IServicioInformacionEstadistica.h"
 #include "vista/ControladorDeBurbujas.h"
 #include "qtuio.h"
 
@@ -20,7 +21,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    ControladorDeBurbujas * controladorBurbujas = new ControladorDeBurbujas;
+    IServicioInformacionEstadistica * servicioInfoEstadistica = new ServicioInformacionEstadistica;
+    ControladorDeBurbujas * controladorBurbujas = new ControladorDeBurbujas(servicioInfoEstadistica);
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
 
     Mapa* map = new Mapa;
@@ -48,6 +50,7 @@ int main(int argc, char *argv[])
     delete map;
     delete lineaDeTiempo;
     delete controladorBurbujas;
+    delete servicioInfoEstadistica;
 
     return salida;
 }
