@@ -9,8 +9,8 @@ class EntidadFederativa
 {
 public:
     QString nombre;
-    int latitud;
-    int longitud;
+    double latitud;
+    double longitud;
     double nHombresPorEntidad;
     double nMujeresPorEntidad;
 
