@@ -1,40 +1,61 @@
 import QtQuick 1.0
 
-ListView {
-    id: lista
-
+Rectangle
+{
+    id: rectangulo
     property int alto: 70
     property int tamagnoLista: 360
     property int offset: 100
 
     width: tamagnoLista
-    height: 360
+    height: 300
 
-    model: modelo
-    delegate:  Row {
+    Column {
+        anchors.top: parent.top
+        anchors.fill: parent
 
-        Rectangle {
-            width: tamagnoLista/2 - izq + offset
-            height: alto
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            Text {
-                text: nombre
+            text: titulo
+            font.pointSize: 10
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        ListView {
+            id: lista
+
+            width: tamagnoLista
+            height: 100
+
+            model: modelo
+            delegate:  Row {
+
+                Rectangle {
+                    width: tamagnoLista/2 + offset - ( (numeroDeHombres * ( tamagnoLista / 2 ) ) / anchoMax)
+                    height: alto
+
+                    Text {
+                        text: nombre
+                    }
+                    color: "transparent"
+                }
+
+                Rectangle {
+                    width: ( (numeroDeHombres * ( tamagnoLista / 2 ) ) / anchoMax)
+                    height: alto
+                    border.color: "black"
+                    color: "blue"
+                }
+
+                Rectangle {
+                    width: ( (numeroDeMujeres * ( tamagnoLista / 2 ) ) / anchoMax)
+                    height: alto
+                    border.color: "black"
+                    color: "green"
+                }
             }
-            color: "transparent"
-        }
-
-        Rectangle {
-            width: izq
-            height: alto
-            border.color: "black"
-            color: "blue"
-        }
-
-        Rectangle {
-            width: der
-            height: alto
-            border.color: "black"
-            color: "green"
         }
     }
 }

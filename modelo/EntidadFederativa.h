@@ -14,7 +14,7 @@ public:
     double nHombresPorEntidad;
     double nMujeresPorEntidad;
 
-    QList<PoblacionPorRangoDeEdad> ragosDeEdad;
+    QList<PoblacionPorRangoDeEdad *> ragosDeEdad;
 
     qreal totalDePoblacion;
 
