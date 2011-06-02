@@ -1,7 +1,12 @@
-drop table if exists mena;
 drop table if exists grupo_mena;
+drop table if exists ref_geo_mena;
+drop table if exists mena;
+
 create table grupo_mena(id INTEGER PRIMARY KEY ASC, nombre);
+create table ref_geo_mena(id INTEGER PRIMARY KEY ASC, nombre, longitud REAL, latitud REAL);
 create table mena(id INTEGER PRIMARY KEY ASC, periodo INTEGER, entidad INTEGER,  id_grupo_mena INTEGER, hombres INTEGER, mujeres INTEGER);
+
+---------------------------------------------------------------------------------------------------
 
 INSERT INTO grupo_mena VALUES(1, '0 - 4');
 INSERT INTO grupo_mena VALUES(2, '5 - 9');
@@ -23,6 +28,40 @@ INSERT INTO grupo_mena VALUES(17, '80 - 84');
 INSERT INTO grupo_mena VALUES(18, '85 O MAS');
 INSERT INTO grupo_mena VALUES(19, 'NO ESPECIFICADO');
 
+-------------------------------------------------------------------------------------------------
+
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(1,'Aguascalientes', -102.71667, 21.85);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(2,'Baja California', -116.61667, 31.86667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(3,'Baja California Sur', -110.3, 24.16667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(4,'Campeche', -90.74544, 18.60891);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(5,'Chiapas', -92.46667, 15.15);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(6,'Chihuahua', -106.08333, 28.63333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(7,'Coahuila', -103.25, 25.53333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(8,'Colima', -103.71667, 19.23333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(9,'DF', -99.16028, 19.32889);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(10,'Durango', -104.66667, 24.03333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(11,'Guanajuato', -101.51667, 20.45);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(12,'Guerrero', -99.35, 18.3);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(13,'Hidalgo', -98.3, 20.03333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(14,'Jalisco', -103.33333, 20.66667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(15,'Mexico', -99.18278, 19.67111);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(16,'Michoacan', -100.36667, 19.4);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(17,'Morelos', -98.95, 18.8);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(18,'Nayarit', -104.36667, 21.03333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(19,'Nuevo Leon', -100.4, 25.66667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(20,'Oaxaca', -97.76667, 17.8);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(21,'Puebla', -98.26667, 19.08333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(22,'Queretaro', -100.38333, 20.6);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(23,'Quintana Roo', -88.05, 19.58333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(24,'San Luis Potosi', -100.65, 23.65);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(25,'Sinaloa', -107.38972, 24.79944);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(26,'Sonora', -110.81667, 27.96667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(27,'Tabasco', -93.21667, 18.26667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(28,'Tamaulipas', -98.96667, 22.73333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(29,'Tlaxcala', -97.925, 19.31528);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(30,'Veracruz', -96.83333, 19.93333);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(31,'Yucatan', -89.86667, 21.01667);
+INSERT INTO ref_geo_mena(id, nombre, longitud, latitud) VALUES(32,'Zacatecas', -102.88333, 23.16667);
 
 --------------------------------------------------------------------------------------------------
 

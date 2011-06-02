@@ -65,8 +65,8 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
     if(baseDatos.open())
     {
         qDebug() << "obtenerElementos::open";
-
-        QString consulta = QString("SELECT *, g.nombre as grupo FROM mena m LEFT OUTER JOIN grupo_mena g ON m.id_grupo_mena = g.id  where periodo = ") + QString::number(periodo);
+        // TODO: Validar que BD existe...
+        QString consulta = QString("SELECT *, g.nombre as grupo, r.nombre as n_entidad FROM mena m LEFT OUTER JOIN grupo_mena g ON m.id_grupo_mena = g.id LEFT OUTER JOIN ref_geo_mena r ON m.entidad = r.id where periodo = ") + QString::number(periodo);
         qDebug() << consulta;
         QSqlQuery query(consulta);
 
@@ -74,6 +74,9 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
         int grupoR = query.record().indexOf("grupo");
         int hombresR = query.record().indexOf("hombres");
         int mujeresR = query.record().indexOf("mujeres");
+        int nEntidadR = query.record().indexOf("n_entidad");
+        int longitudR = query.record().indexOf("longitud");
+        int latitudR = query.record().indexOf("latitud");
 
         query.exec();
         while(query.next())
@@ -82,11 +85,11 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
 
             EntidadFederativa * entidadSalida;
             entidadSalida = salida->contains(entidad) ? salida->value(entidad) : new EntidadFederativa;
-            entidadSalida->nombre = QString::number(entidad);
+            entidadSalida->nombre = query.value(nEntidadR).toString();
 
             // TODO lectura de BD
-            entidadSalida->longitud = -102.3;
-            entidadSalida->latitud = 21.883333;
+            entidadSalida->longitud = query.value(longitudR).toDouble();
+            entidadSalida->latitud = query.value(latitudR).toDouble();
 
             // TODO lectura incorrecta
             PoblacionPorRangoDeEdad poblacionPorRangoDeEdad;
