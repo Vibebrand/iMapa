@@ -10,11 +10,14 @@ public:
     ServicioInformacionEstadistica();
     ~ServicioInformacionEstadistica();
     int obtenerPeriodos();
-    QList<EntidadFederativa>* obtenerPeriodo(int periodo);
-    qreal obtenerTotalDePoblacionPorPeriodo();
+    const QList<EntidadFederativa*>* obtenerPeriodo(int periodo);
+    double obtenerTotalDePoblacionPorPeriodo();
 
 
 private:
+        QMap<int, EntidadFederativa*> * obtenerElementos(int periodo);
+        QMap<int, QMap<int, EntidadFederativa*> * > * elementos;
+        double nElementosMax;
 };
 
 

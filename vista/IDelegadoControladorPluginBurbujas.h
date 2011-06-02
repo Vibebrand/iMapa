@@ -9,8 +9,8 @@ struct Burbuja
 {
     QString nombre;
     QColor color;
-    int radio;
-    qreal longitiud;
+    double radio;
+    qreal longitud;
     qreal latitud;
 };
 

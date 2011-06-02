@@ -6,9 +6,9 @@ class PoblacionPorRangoDeEdad
 {
 public:
     QString nombre;
-    int numeroDeHombres;
-    int numeroDeMujeres;
-    int totalDePoblacion;
+    double numeroDeHombres;
+    double numeroDeMujeres;
+    double totalDePoblacion;
 };
 
 #endif // POBLACIONPORRANGODEEDAD_H
