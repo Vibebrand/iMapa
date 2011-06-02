@@ -11,8 +11,13 @@ public:
     QString nombre;
     int latitud;
     int longitud;
+    double nHombresPorEntidad;
+    double nMujeresPorEntidad;
+
     QList<PoblacionPorRangoDeEdad> ragosDeEdad;
-    int totalDePoblacion;
+
+    qreal totalDePoblacion;
+
     int numeroPeriodo;
 };
 

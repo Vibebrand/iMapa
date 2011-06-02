@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui declarative opengl
+QT       += core gui declarative opengl sql
 TARGET = iMapa
 TEMPLATE = app
 

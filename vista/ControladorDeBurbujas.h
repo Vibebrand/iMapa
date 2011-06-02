@@ -32,7 +32,7 @@ private:
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;
     IDelegadoControladorPluginBurbujas* _controladorPluginBurbujas;
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
-    QList<EntidadFederativa>* _entidadesFederativasActivaas;
+    const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
     int periodoEstadisticoActivo;
 };
 
