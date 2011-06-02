@@ -66,7 +66,9 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
     {
         qDebug() << "obtenerElementos::open";
 
-        QSqlQuery query("SELECT * FROM mena;");
+        QString consulta = QString("SELECT *, g.nombre as grupo FROM mena m LEFT OUTER JOIN grupo_mena g ON m.id_grupo_mena = g.id  where periodo = ") + QString::number(periodo);
+        qDebug() << consulta;
+        QSqlQuery query(consulta);
 
         int entidadR = query.record().indexOf("entidad");
         int grupoR = query.record().indexOf("grupo");
