@@ -29,10 +29,12 @@ public:
 public slots:
     void agregarBurbujasAlMapa();
 private:
+    void encontrarValorMaximo(double numTotalpoblacion);
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;
     IDelegadoControladorPluginBurbujas* _controladorPluginBurbujas;
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
+    double valorMaximoActivo;
     int periodoEstadisticoActivo;
 };
 

@@ -14,8 +14,9 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
 
     _entidadesFederativasActivaas = _servicioInformacionEstadistica->obtenerPeriodo(1);
     periodoEstadisticoActivo = 1;
-    double radioMaximo = 100;
+    double radioMaximo = 50;
     double numeroTotalDePoblacion  = _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo();
+    encontrarValorMaximo(numeroTotalDePoblacion);
     qDebug() << "numeroTotalDePoblacion: " << numeroTotalDePoblacion;
     foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
     {
@@ -26,13 +27,13 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
         double porcentajePorEntidad = (entidad->totalDePoblacion * 100) / numeroTotalDePoblacion;
         qDebug() << "(" << entidad->totalDePoblacion  << " * 100) / " << numeroTotalDePoblacion << " = " << porcentajePorEntidad;
 
-        burbuja.radio = (porcentajePorEntidad * radioMaximo ) / 100 ;
+        burbuja.radio = (porcentajePorEntidad * radioMaximo ) / valorMaximoActivo;
+        qDebug() << "(" << porcentajePorEntidad  << " * "<< radioMaximo << ")/"<< valorMaximoActivo << " = " << burbuja.radio;
         qDebug() <<"-- ent:" << entidad->nombre << " - radio: " << burbuja.radio;
 
         if(_controladorPluginBurbujas)
             _delegadosObjetoBurbuja[burbuja.nombre] = _controladorPluginBurbujas->agregarElemento(burbuja);
 
-        //break;
     }
 }
 
@@ -57,4 +58,14 @@ ControladorDeBurbujas::~ControladorDeBurbujas()
 {
     if(_entidadesFederativasActivaas)
         delete _entidadesFederativasActivaas;
+}
+
+void ControladorDeBurbujas::encontrarValorMaximo(double numTotalpoblacion)
+{
+    valorMaximoActivo = 0;
+    foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
+    {
+        double _porcentajePorEntidad = (entidad->totalDePoblacion * 100) / numTotalpoblacion;
+        valorMaximoActivo=(valorMaximoActivo<_porcentajePorEntidad)?_porcentajePorEntidad: valorMaximoActivo;
+    }
 }
