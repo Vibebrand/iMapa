@@ -58,4 +58,5 @@ RESOURCES += \
     vista/qml.qrc
 
 OTHER_FILES += \
-    vista/ControlLineaDeTiempo.qml
+    vista/ControlLineaDeTiempo.qml \
+    vista/PiramidePoblacional.qml
