@@ -10,6 +10,8 @@
 
 #include "servicio/ServicioInformacionEstadistica.h"
 
+class ControladorDeBurbujasPrivate;
+
 /*!
 Controlador responsable de mostar la informacion estadistcia de acuerdo
 a una linea de tiempo impuesta por un periodo de informacion determinado
@@ -29,13 +31,12 @@ public:
 public slots:
     void agregarBurbujasAlMapa();
 private:
-    void encontrarValorMaximo(double numTotalpoblacion);
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;
     IDelegadoControladorPluginBurbujas* _controladorPluginBurbujas;
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
-    double valorMaximoActivo;
     int periodoEstadisticoActivo;
+    ControladorDeBurbujasPrivate* clasePrivada;
 };
 
 
