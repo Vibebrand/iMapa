@@ -16,7 +16,7 @@ public:
 
     QList<PoblacionPorRangoDeEdad *> ragosDeEdad;
 
-    qreal totalDePoblacion;
+    double totalDePoblacion;
 
     int numeroPeriodo;
 };

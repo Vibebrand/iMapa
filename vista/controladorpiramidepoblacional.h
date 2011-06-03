@@ -16,6 +16,9 @@ public:
     explicit ControladorPiramidePoblacional(QObject *parent = 0);
     virtual ~ControladorPiramidePoblacional();
 
+    Q_INVOKABLE double calculaAncho(double cantidad);
+    Q_INVOKABLE double cantidadDesface(double cantidad);
+
     QWidget * widget();
 
 signals:
@@ -27,6 +30,10 @@ private:
     QDeclarativeView view;
     QDeclarativeContext * contexto;
     QList<QObject *> listaVacia;
+
+    int offset;
+    double anchoMaximoDeCadaLadoEnPixeles;
+    double anchoMax;
 };
 
 #endif // CONTROLADORPIRAMIDEPOBLACIONAL_H

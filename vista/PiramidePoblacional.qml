@@ -3,58 +3,66 @@ import QtQuick 1.0
 Rectangle
 {
     id: rectangulo
-    property int alto: 70
-    property int tamagnoLista: 360
-    property int offset: 100
 
-    width: tamagnoLista
+    property int alto: 20
+    property int tamagnoLista: 400
+    property int offset: 50
+
+    width: tamagnoLista + offset + 10
     height: 300
 
-    Column {
-        anchors.top: parent.top
-        anchors.fill: parent
+    Text
+    {
+        id: texto
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        Text {
-            anchors.horizontalCenter: parent.horizontalCenter
+        height: 30
+        text: titulo
+        style: Text.Raised
+        font.bold: true
+        verticalAlignment: Text.AlignVCenter
+        font.pointSize: 12
+    }
 
-            text: titulo
-            font.pointSize: 10
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+    ListView {
+        id: lista
 
-        ListView {
-            id: lista
+        anchors.top: texto.bottom
+        height: parent.height - texto.height
+        width: parent.width
 
-            width: tamagnoLista
-            height: 100
+        model: modelo
+        delegate:  Row {
 
-            model: modelo
-            delegate:  Row {
+            property real anchoIzq : delegado.calculaAncho(numeroDeHombres)
+            property real anchoDer : delegado.calculaAncho(numeroDeMujeres)
+            property real desfase : delegado.cantidadDesface(numeroDeHombres)
 
-                Rectangle {
-                    width: tamagnoLista/2 + offset - ( (numeroDeHombres * ( tamagnoLista / 2 ) ) / anchoMax)
-                    height: alto
+            Text {
+                text: nombre
+                width: desfase
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
+            }
 
-                    Text {
-                        text: nombre
-                    }
-                    color: "transparent"
-                }
+            Rectangle {
+                width: 10
+                height: alto
+                color: "transparent"
+            }
 
-                Rectangle {
-                    width: ( (numeroDeHombres * ( tamagnoLista / 2 ) ) / anchoMax)
-                    height: alto
-                    border.color: "black"
-                    color: "blue"
-                }
+            Rectangle {
+                width: anchoIzq
+                height: alto
+                border.color: "black"
+                color: "blue"
+            }
 
-                Rectangle {
-                    width: ( (numeroDeMujeres * ( tamagnoLista / 2 ) ) / anchoMax)
-                    height: alto
-                    border.color: "black"
-                    color: "green"
-                }
+            Rectangle {
+                width: anchoDer
+                height: alto
+                border.color: "black"
+                color: "green"
             }
         }
     }
