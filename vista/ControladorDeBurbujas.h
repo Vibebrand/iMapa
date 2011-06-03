@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QString>
+#include <QTimer>
 
 #include "IDelegadoControladorPluginBurbujas.h"
 #include "IDelegadoGestorSeleccion.h"
@@ -29,13 +30,24 @@ public:
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
 
 public slots:
+    void cmdIniciarSecuenciaDePeriodos();
+    void cmdAdelantarPeriodo();
+    void cmdAtrasarPerioro();
     void agregarBurbujasAlMapa();
+
+
+signals:
+    void cambioDePeriodo();
+
 private:
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;
     IDelegadoControladorPluginBurbujas* _controladorPluginBurbujas;
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
     int periodoEstadisticoActivo;
+    int numeroPeriodos;
+    bool animacion;
+    QTimer seconds;
     ControladorDeBurbujasPrivate* clasePrivada;
 };
 

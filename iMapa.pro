@@ -14,7 +14,9 @@ SOURCES += main.cpp\
     vista/mapa.cpp \
     vista/ControladorDeBurbujas.cpp \
     servicio/ServicioInformacionEstadistica.cpp \
-    vista/controladorcontrollineadetiempo.cpp
+    vista/controladorcontrollineadetiempo.cpp \
+    vista/controladorpiramidepoblacional.cpp \
+    modelo/PoblacionPorRangoDeEdad.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
@@ -28,7 +30,8 @@ HEADERS  += \
     modelo/EntidadFederativa.h \
     modelo/PoblacionPorRangoDeEdad.h \
     servicio/ServicioInformacionEstadistica.h \
-    vista/controladorcontrollineadetiempo.h
+    vista/controladorcontrollineadetiempo.h \
+    vista/controladorpiramidepoblacional.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
@@ -58,4 +61,5 @@ RESOURCES += \
     vista/qml.qrc
 
 OTHER_FILES += \
-    vista/ControlLineaDeTiempo.qml
+    vista/ControlLineaDeTiempo.qml \
+    vista/PiramidePoblacional.qml

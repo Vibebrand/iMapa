@@ -11,6 +11,7 @@
 #include "vista/ContenedorPrincipal.h"
 #include "vista/controladorcontrollineadetiempo.h"
 #include "vista/IDelegadoControladorPluginBurbujas.h"
+#include "vista/controladorpiramidepoblacional.h"
 #include "servicio/IServicioInformacionEstadistica.h"
 #include "vista/ControladorDeBurbujas.h"
 #include "qtuio.h"
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     Mapa* map = new Mapa;
     IServicioInformacionEstadistica * servicioInfoEstadistica = new ServicioInformacionEstadistica;
     ControladorDeBurbujas * controladorBurbujas = new ControladorDeBurbujas(servicioInfoEstadistica);
+    ControladorPiramidePoblacional * controladorPiramidePoblacional = new ControladorPiramidePoblacional;
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
     ContenedorPrincipal * contenedor = new ContenedorPrincipal(0, map);
 
@@ -31,7 +33,10 @@ int main(int argc, char *argv[])
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
+
     map->centerOn(-102.71667, 21.85);
+
+    //contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
     contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());
@@ -41,12 +46,13 @@ int main(int argc, char *argv[])
     tuio.run();
 
     enlazarPluginAControlador(map, controladorBurbujas);
-    QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(agregarBurbujasAlMapa()));
+    QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(cmdIniciarSecuenciaDePeriodos()));
 
     int salida = a.exec();
 
     delete contenedor;
     delete lineaDeTiempo;
+    delete controladorPiramidePoblacional;
     delete controladorBurbujas;
     delete servicioInfoEstadistica;
     delete map;

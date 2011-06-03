@@ -1,5 +1,6 @@
 #include "ControladorDeBurbujas.h"
 #include <QDebug>
+#include <QTimer>
 
 
 class ControladorDeBurbujasPrivate
@@ -15,13 +16,13 @@ public:
 ControladorDeBurbujasPrivate::ControladorDeBurbujasPrivate()
 {
     _porcentajeMaximoActivo=0;
-    radioMaximo = 50;
+    radioMaximo =50;
 }
 
 double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad)
 {
     double _radio = (entidad->porcentajeNacionalDePoblacion * radioMaximo ) / _porcentajeMaximoActivo;
-    qDebug()<< entidad->nombre<<"  "<< entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
+    //qDebug()<< entidad->nombre<<"  "<< entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
     return _radio;
 }
 
@@ -41,6 +42,9 @@ ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * s
     _controladorPluginBurbujas(0), _entidadesFederativasActivaas(0)
 {
     clasePrivada = new ControladorDeBurbujasPrivate;
+    periodoEstadisticoActivo = 0;
+    numeroPeriodos = _servicioInformacionEstadistica->obtenerPeriodos();
+    animacion = false;
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
@@ -48,7 +52,9 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
     if(_entidadesFederativasActivaas)
         delete _entidadesFederativasActivaas;
 
-    periodoEstadisticoActivo = 4;
+    if(animacion)
+        cmdAdelantarPeriodo();
+
     _entidadesFederativasActivaas = _servicioInformacionEstadistica->obtenerPeriodo(periodoEstadisticoActivo);
     clasePrivada->obtenerPorcentajeMaximoActivo(
                 _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo(),
@@ -69,6 +75,43 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
         _delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
                     clasePrivada->asignarRadioEnFuncionPorcentajeMaximoActivo(
                         entidad));
+    }
+}
+
+void ControladorDeBurbujas::cmdIniciarSecuenciaDePeriodos()
+{
+    animacion = true;
+    qDebug()<< "iniciada secuencia";
+    seconds.setInterval(5000);
+    agregarBurbujasAlMapa();
+    QObject::connect(&seconds,SIGNAL(timeout()), this, SLOT(agregarBurbujasAlMapa()));
+    seconds.start();
+}
+
+void ControladorDeBurbujas::cmdAdelantarPeriodo()
+{
+    if(periodoEstadisticoActivo < numeroPeriodos)
+    {
+        ++periodoEstadisticoActivo;
+        qDebug()<<periodoEstadisticoActivo;
+        if(!animacion)
+            agregarBurbujasAlMapa();
+    }
+    else
+    {
+        animacion = false;
+        seconds.stop();
+    }
+}
+
+
+void ControladorDeBurbujas::cmdAtrasarPerioro()
+{
+    animacion = false;
+    if(periodoEstadisticoActivo>1)
+    {
+        --periodoEstadisticoActivo;
+        agregarBurbujasAlMapa();
     }
 }
 

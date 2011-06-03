@@ -20,14 +20,19 @@ ServicioInformacionEstadistica::~ServicioInformacionEstadistica()
         if(QMap<int, EntidadFederativa *> * elementoInterno = it.value())
         {
             for(QMap<int, EntidadFederativa *>::iterator it2 = elementoInterno->begin(); it2 != elementoInterno->end(); ++it2)
-            {
                 if(EntidadFederativa * entidadFed = it2.value())
                 {
+                    QList<PoblacionPorRangoDeEdad *> rangos = entidadFed->ragosDeEdad;
+                    while(rangos.count() > 0)
+                        if(PoblacionPorRangoDeEdad * poblacionPorRangoDeEdad = rangos.takeLast())
+                        {
+                            delete poblacionPorRangoDeEdad;
+                            rangos.removeLast();
+                        }
+
                     delete entidadFed;
                     it2.value() = 0;
                 }
-            }
-
             delete elementoInterno;
             it.value() = 0;
         }
@@ -37,7 +42,7 @@ ServicioInformacionEstadistica::~ServicioInformacionEstadistica()
 
 int ServicioInformacionEstadistica::obtenerPeriodos()
 {
-    return 1;
+    return 4;
 }
 
 const QList<EntidadFederativa *> * ServicioInformacionEstadistica::obtenerPeriodo(int periodo)
@@ -87,23 +92,21 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
             entidadSalida = salida->contains(entidad) ? salida->value(entidad) : new EntidadFederativa;
             entidadSalida->nombre = query.value(nEntidadR).toString();
 
-            // TODO lectura de BD
             entidadSalida->longitud = query.value(longitudR).toDouble();
             entidadSalida->latitud = query.value(latitudR).toDouble();
 
-            // TODO lectura incorrecta
-            PoblacionPorRangoDeEdad poblacionPorRangoDeEdad;
-            poblacionPorRangoDeEdad.nombre = query.value(grupoR).toString();
-            poblacionPorRangoDeEdad.numeroDeHombres = query.value(hombresR).toDouble();
-            poblacionPorRangoDeEdad.numeroDeMujeres = query.value(mujeresR).toDouble();
+            PoblacionPorRangoDeEdad * poblacionPorRangoDeEdad = new PoblacionPorRangoDeEdad;
+            poblacionPorRangoDeEdad->setNombre(query.value(grupoR).toString());
+            poblacionPorRangoDeEdad->setNumeroDeHombres(query.value(hombresR).toDouble());
+            poblacionPorRangoDeEdad->setNumeroDeMujeres(query.value(mujeresR).toDouble());
 
-            entidadSalida->nHombresPorEntidad += poblacionPorRangoDeEdad.numeroDeHombres;
-            entidadSalida->nMujeresPorEntidad += poblacionPorRangoDeEdad.numeroDeMujeres;
+            entidadSalida->nHombresPorEntidad += poblacionPorRangoDeEdad->getNumeroDeHombres();
+            entidadSalida->nMujeresPorEntidad += poblacionPorRangoDeEdad->getNumeroDeMujeres();
 
-            poblacionPorRangoDeEdad.totalDePoblacion = poblacionPorRangoDeEdad.numeroDeHombres + poblacionPorRangoDeEdad.numeroDeMujeres;
-            nElementosMax += poblacionPorRangoDeEdad.totalDePoblacion;
+            poblacionPorRangoDeEdad->setTotalDePoblacion(poblacionPorRangoDeEdad->getNumeroDeHombres() + poblacionPorRangoDeEdad->getNumeroDeMujeres());
+            nElementosMax += poblacionPorRangoDeEdad->getTotalDePoblacion();
 
-            entidadSalida->totalDePoblacion += poblacionPorRangoDeEdad.totalDePoblacion;
+            entidadSalida->totalDePoblacion += poblacionPorRangoDeEdad->getTotalDePoblacion();
             entidadSalida->ragosDeEdad.append(poblacionPorRangoDeEdad);
 
             (*salida)[entidad] = entidadSalida;
