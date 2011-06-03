@@ -45,6 +45,7 @@ ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * s
     periodoEstadisticoActivo = 0;
     numeroPeriodos = _servicioInformacionEstadistica->obtenerPeriodos();
     animacion = false;
+    zoomInicial=0;
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
@@ -138,4 +139,16 @@ ControladorDeBurbujas::~ControladorDeBurbujas()
         delete _entidadesFederativasActivaas;
     if(clasePrivada)
         delete clasePrivada;
+}
+
+void ControladorDeBurbujas::actualizarRadio(int zoom)
+{
+    if( zoom > zoomInicial)
+        clasePrivada->radioMaximo+=10;
+    if( zoom < zoomInicial)
+        clasePrivada->radioMaximo=(clasePrivada->radioMaximo<0)?0:clasePrivada->radioMaximo-=10;
+
+    zoomInicial =zoom;
+    agregarBurbujasAlMapa();
+    qDebug()<< "zoom="<< zoom << " radio=" << clasePrivada->radioMaximo;
 }
