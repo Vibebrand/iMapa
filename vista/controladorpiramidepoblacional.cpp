@@ -26,6 +26,8 @@ ControladorPiramidePoblacional::ControladorPiramidePoblacional(QObject *parent) 
     int offset = view.rootObject()->property("offset").toInt(&existePropiedad);
     if(existePropiedad)
         this->offset = offset;
+
+    view.setVisible(false);
 }
 
 ControladorPiramidePoblacional::~ControladorPiramidePoblacional()
@@ -37,6 +39,8 @@ void ControladorPiramidePoblacional::estableceModelo(EntidadFederativa * entidad
 {
     if(contexto)
     {
+        view.setVisible(true);
+
         anchoMax = 0;
 
         contexto->setContextProperty("titulo", entidad->nombre);

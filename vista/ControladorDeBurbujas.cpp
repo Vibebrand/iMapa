@@ -121,7 +121,7 @@ void ControladorDeBurbujas::elementoSeleccionado(QString nombre)
         foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
             if(!entidad->nombre.compare(nombre))
             {
-                qDebug()<< entidad->nombre;
+                emit entidadSeleccionada(entidad);
                 break;
             }
 }

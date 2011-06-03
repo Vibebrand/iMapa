@@ -82,6 +82,8 @@ void ContenedorPrincipal::agregarWidget(QString nombre, QWidget *widget)
 {
     WidgetInterno wi = WidgetInterno(widget, escena->addWidget(widget));
     wi.proxy->setAcceptTouchEvents(true);
+    if(!nombre.compare("controladorPiramidePoblacional")) // TODO Evitar hardcode
+        wi.proxy->translate(0, escena->height() + 250);
     widgetsInternos.insert(nombre, wi);
 }
 
