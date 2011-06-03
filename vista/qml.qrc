@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/qml">
         <file>ControlLineaDeTiempo.qml</file>
+        <file>PiramidePoblacional.qml</file>
     </qresource>
     <qresource prefix="/qml/Imagenes">
         <file alias="backButton.png">Imagenes/backButton.png</file>

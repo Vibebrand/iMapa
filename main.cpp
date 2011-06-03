@@ -11,6 +11,7 @@
 #include "vista/ContenedorPrincipal.h"
 #include "vista/controladorcontrollineadetiempo.h"
 #include "vista/IDelegadoControladorPluginBurbujas.h"
+#include "vista/controladorpiramidepoblacional.h"
 #include "servicio/IServicioInformacionEstadistica.h"
 #include "vista/ControladorDeBurbujas.h"
 #include "qtuio.h"
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     Mapa* map = new Mapa;
     IServicioInformacionEstadistica * servicioInfoEstadistica = new ServicioInformacionEstadistica;
     ControladorDeBurbujas * controladorBurbujas = new ControladorDeBurbujas(servicioInfoEstadistica);
+    ControladorPiramidePoblacional * controladorPiramidePoblacional = new ControladorPiramidePoblacional;
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
     ContenedorPrincipal * contenedor = new ContenedorPrincipal(0, map);
 
@@ -32,6 +34,7 @@ int main(int argc, char *argv[])
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
 
+    contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
     contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());
@@ -47,6 +50,7 @@ int main(int argc, char *argv[])
 
     delete contenedor;
     delete lineaDeTiempo;
+    delete controladorPiramidePoblacional;
     delete controladorBurbujas;
     delete servicioInfoEstadistica;
     delete map;
