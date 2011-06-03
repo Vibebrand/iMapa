@@ -38,6 +38,7 @@ public slots:
 
 signals:
     void cambioDePeriodo();
+    void entidadSeleccionada(EntidadFederativa *entidad);
 
 private:
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;

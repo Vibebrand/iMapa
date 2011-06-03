@@ -6,6 +6,7 @@
 #include "MarbleWidget.h"
 #include "MarbleMap.h"
 #include "RenderPlugin.h"
+#include "MarbleWidgetInputHandler.h"
 
 #include "vista/mapa.h"
 #include "vista/ContenedorPrincipal.h"
@@ -29,6 +30,9 @@ int main(int argc, char *argv[])
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
     ContenedorPrincipal * contenedor = new ContenedorPrincipal(0, map);
 
+    QObject::connect(map->inputHandler(), SIGNAL(mouseClickScreenPosition(int,int)), map, SLOT(gestionaAccionPluginItems(int,int)));
+    QObject::connect(controladorBurbujas, SIGNAL(entidadSeleccionada(EntidadFederativa*)), controladorPiramidePoblacional, SLOT(estableceModelo(EntidadFederativa*)));
+
     map->setObjectName("mapa");
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
 
     map->centerOn(-102.71667, 21.85);
 
-    //contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
+    contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
     contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());

@@ -7,6 +7,10 @@
 ControladorPiramidePoblacional::ControladorPiramidePoblacional(QObject *parent) :
     QObject(parent), offset(0), anchoMaximoDeCadaLadoEnPixeles(0), anchoMax(0)
 {
+
+    view.setAttribute(Qt::WA_TranslucentBackground);
+    view.setStyleSheet("background:transparent;");
+
     contexto = view.rootContext();
     contexto->setContextProperty("titulo", "Piramide Poblacional");
     contexto->setContextProperty("delegado", this);
@@ -22,6 +26,8 @@ ControladorPiramidePoblacional::ControladorPiramidePoblacional(QObject *parent) 
     int offset = view.rootObject()->property("offset").toInt(&existePropiedad);
     if(existePropiedad)
         this->offset = offset;
+
+    view.setVisible(false);
 }
 
 ControladorPiramidePoblacional::~ControladorPiramidePoblacional()
@@ -33,6 +39,8 @@ void ControladorPiramidePoblacional::estableceModelo(EntidadFederativa * entidad
 {
     if(contexto)
     {
+        view.setVisible(true);
+
         anchoMax = 0;
 
         contexto->setContextProperty("titulo", entidad->nombre);
