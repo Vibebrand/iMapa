@@ -7,6 +7,10 @@
 ControladorPiramidePoblacional::ControladorPiramidePoblacional(QObject *parent) :
     QObject(parent), offset(0), anchoMaximoDeCadaLadoEnPixeles(0), anchoMax(0)
 {
+
+    view.setAttribute(Qt::WA_TranslucentBackground);
+    view.setStyleSheet("background:transparent;");
+
     contexto = view.rootContext();
     contexto->setContextProperty("titulo", "Piramide Poblacional");
     contexto->setContextProperty("delegado", this);

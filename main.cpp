@@ -6,6 +6,7 @@
 #include "MarbleWidget.h"
 #include "MarbleMap.h"
 #include "RenderPlugin.h"
+#include "MarbleWidgetInputHandler.h"
 
 #include "vista/mapa.h"
 #include "vista/ContenedorPrincipal.h"
@@ -28,6 +29,8 @@ int main(int argc, char *argv[])
     ControladorPiramidePoblacional * controladorPiramidePoblacional = new ControladorPiramidePoblacional;
     ControladorControlLineaDeTiempo * lineaDeTiempo = new ControladorControlLineaDeTiempo;
     ContenedorPrincipal * contenedor = new ContenedorPrincipal(0, map);
+
+    QObject::connect(map->inputHandler(), SIGNAL(mouseClickScreenPosition(int,int)), map, SLOT(gestionaAccionPluginItems(int,int)));
 
     map->setObjectName("mapa");
     map->setMapThemeId("earth/srtm/srtm.dgml");

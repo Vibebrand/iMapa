@@ -7,9 +7,13 @@
 
 class Mapa : public Marble::MarbleWidget, public IGestionaEvento
 {
+    Q_OBJECT
 public:
     explicit Mapa();
     bool gestionaEvento(QEvent * event);
+
+public slots:
+    void gestionaAccionPluginItems(int x, int y);
 };
 
 #endif // MAPA_H
