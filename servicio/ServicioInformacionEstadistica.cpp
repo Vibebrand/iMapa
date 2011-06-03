@@ -42,7 +42,7 @@ ServicioInformacionEstadistica::~ServicioInformacionEstadistica()
 
 int ServicioInformacionEstadistica::obtenerPeriodos()
 {
-    return 1;
+    return 4;
 }
 
 const QList<EntidadFederativa *> * ServicioInformacionEstadistica::obtenerPeriodo(int periodo)

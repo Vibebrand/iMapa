@@ -34,7 +34,9 @@ int main(int argc, char *argv[])
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
 
-    contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
+    map->centerOn(-102.71667, 21.85);
+
+    //contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
     contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());
@@ -44,7 +46,7 @@ int main(int argc, char *argv[])
     tuio.run();
 
     enlazarPluginAControlador(map, controladorBurbujas);
-    QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(agregarBurbujasAlMapa()));
+    QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(cmdIniciarSecuenciaDePeriodos()));
 
     int salida = a.exec();
 

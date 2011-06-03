@@ -19,6 +19,7 @@ public:
     double totalDePoblacion;
 
     int numeroPeriodo;
+    double porcentajeNacionalDePoblacion;
 };
 
 #endif // ENTIDADFEDERATIVA_H

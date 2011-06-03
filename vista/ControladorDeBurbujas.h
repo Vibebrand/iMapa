@@ -3,12 +3,15 @@
 
 #include <QMap>
 #include <QString>
+#include <QTimer>
 
 #include "IDelegadoControladorPluginBurbujas.h"
 #include "IDelegadoGestorSeleccion.h"
 #include "IDelegadoObjetoBurbuja.h"
 
 #include "servicio/ServicioInformacionEstadistica.h"
+
+class ControladorDeBurbujasPrivate;
 
 /*!
 Controlador responsable de mostar la informacion estadistcia de acuerdo
@@ -27,15 +30,25 @@ public:
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
 
 public slots:
+    void cmdIniciarSecuenciaDePeriodos();
+    void cmdAdelantarPeriodo();
+    void cmdAtrasarPerioro();
     void agregarBurbujasAlMapa();
+
+
+signals:
+    void cambioDePeriodo();
+
 private:
-    void encontrarValorMaximo(double numTotalpoblacion);
     IServicioInformacionEstadistica* _servicioInformacionEstadistica;
     IDelegadoControladorPluginBurbujas* _controladorPluginBurbujas;
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
-    double valorMaximoActivo;
     int periodoEstadisticoActivo;
+    int numeroPeriodos;
+    bool animacion;
+    QTimer seconds;
+    ControladorDeBurbujasPrivate* clasePrivada;
 };
 
 
