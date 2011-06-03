@@ -34,7 +34,7 @@ public slots:
     void cmdAdelantarPeriodo();
     void cmdAtrasarPerioro();
     void agregarBurbujasAlMapa();
-
+    void actualizarRadio(int zoom);
 
 signals:
     void cambioDePeriodo();
@@ -49,6 +49,7 @@ private:
     bool animacion;
     QTimer seconds;
     ControladorDeBurbujasPrivate* clasePrivada;
+    int zoomInicial;
 };
 
 
