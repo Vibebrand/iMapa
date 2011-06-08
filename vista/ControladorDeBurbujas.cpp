@@ -8,21 +8,54 @@ class ControladorDeBurbujasPrivate
 public:
     double _porcentajeMaximoActivo;
     double radioMaximo;
+
+    EntidadFederativa *entidadConPoblacionMaximaEntrePeriodos;
+
     ControladorDeBurbujasPrivate();
     void obtenerPorcentajeMaximoActivo(double numeroTotalDePoblacionActiva, const QList<EntidadFederativa *>* entidadesFederativasActivaas );
     double asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad);
+
+    void obtenerPoblacionMaximaEntreLosPeriodos(IServicioInformacionEstadistica* servicio);
+    double asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(EntidadFederativa* entidad);
 };
 
 ControladorDeBurbujasPrivate::ControladorDeBurbujasPrivate()
 {
     _porcentajeMaximoActivo=0;
     radioMaximo =50;
+    entidadConPoblacionMaximaEntrePeriodos=0;
+
+}
+
+void ControladorDeBurbujasPrivate::obtenerPoblacionMaximaEntreLosPeriodos(IServicioInformacionEstadistica *servicio)
+{
+    int numueroPeriodos = servicio->obtenerPeriodos();
+    const QList<EntidadFederativa *>* entidadesFederativasActivas;
+    for(int i=1; i<=numueroPeriodos;i++)
+    {
+        entidadesFederativasActivas = servicio->obtenerPeriodo(i);
+        foreach (EntidadFederativa* entidad, (*entidadesFederativasActivas))
+        {
+            if(entidadConPoblacionMaximaEntrePeriodos)
+            {
+                if(entidadConPoblacionMaximaEntrePeriodos->totalDePoblacion < entidad->totalDePoblacion  )
+                    entidadConPoblacionMaximaEntrePeriodos = entidad;
+            }else
+                entidadConPoblacionMaximaEntrePeriodos=entidad;
+        }
+    }
+}
+
+double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(EntidadFederativa *entidad)
+{
+    double radio =  ( entidad->totalDePoblacion * radioMaximo)/ entidadConPoblacionMaximaEntrePeriodos->totalDePoblacion;
+    return radio;
 }
 
 double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad)
 {
     double _radio = (entidad->porcentajeNacionalDePoblacion * radioMaximo ) / _porcentajeMaximoActivo;
-    qDebug()<< entidad->nombre<<"= "<< entidad->totalDePoblacion<<" " << entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
+    //qDebug()<< entidad->nombre<<"= "<< entidad->totalDePoblacion<<" " << entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
     return _radio;
 }
 
@@ -32,7 +65,7 @@ void ControladorDeBurbujasPrivate::obtenerPorcentajeMaximoActivo(double numeroTo
     {
         entidad->porcentajeNacionalDePoblacion = (entidad->totalDePoblacion * 100) / numeroTotalDePoblacionActiva;
         _porcentajeMaximoActivo=(_porcentajeMaximoActivo < entidad->porcentajeNacionalDePoblacion)?entidad->porcentajeNacionalDePoblacion: _porcentajeMaximoActivo;
-        qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion << "ntpa"<< numeroTotalDePoblacionActiva ;
+        //qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion << "ntpa"<< numeroTotalDePoblacionActiva ;
     }
 }
 
@@ -46,6 +79,7 @@ ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * s
     numeroPeriodos = _servicioInformacionEstadistica->obtenerPeriodos();
     animacion = false;
     zoomInicial=0;
+    clasePrivada->obtenerPoblacionMaximaEntreLosPeriodos(_servicioInformacionEstadistica);
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
@@ -56,10 +90,13 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
     if(animacion)
         cmdAdelantarPeriodo();
 
+
     _entidadesFederativasActivaas = _servicioInformacionEstadistica->obtenerPeriodo(periodoEstadisticoActivo);
-    clasePrivada->obtenerPorcentajeMaximoActivo(
-                _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo(),
-                _entidadesFederativasActivaas);
+    //clasePrivada->obtenerPorcentajeMaximoActivo(
+      //          _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo(),
+        //        _entidadesFederativasActivaas);
+
+
 
     foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
     {
@@ -73,9 +110,12 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
             if(_controladorPluginBurbujas)
                 _delegadosObjetoBurbuja[burbuja.nombre] = _controladorPluginBurbujas->agregarElemento(burbuja);
         }
-        _delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
+        /*_delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
                     clasePrivada->asignarRadioEnFuncionPorcentajeMaximoActivo(
-                        entidad));
+                        entidad));*/
+        _delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
+                            clasePrivada->asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(entidad));
+
     }
 }
 
@@ -141,6 +181,7 @@ ControladorDeBurbujas::~ControladorDeBurbujas()
         delete clasePrivada;
 }
 
+//TODO corregir esto
 void ControladorDeBurbujas::actualizarRadio(int zoom)
 {
     if( zoom > zoomInicial)
