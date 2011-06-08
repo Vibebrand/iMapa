@@ -22,7 +22,7 @@ ControladorDeBurbujasPrivate::ControladorDeBurbujasPrivate()
 double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad)
 {
     double _radio = (entidad->porcentajeNacionalDePoblacion * radioMaximo ) / _porcentajeMaximoActivo;
-    //qDebug()<< entidad->nombre<<"  "<< entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
+    qDebug()<< entidad->nombre<<"= "<< entidad->totalDePoblacion<<" " << entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
     return _radio;
 }
 
@@ -32,7 +32,7 @@ void ControladorDeBurbujasPrivate::obtenerPorcentajeMaximoActivo(double numeroTo
     {
         entidad->porcentajeNacionalDePoblacion = (entidad->totalDePoblacion * 100) / numeroTotalDePoblacionActiva;
         _porcentajeMaximoActivo=(_porcentajeMaximoActivo < entidad->porcentajeNacionalDePoblacion)?entidad->porcentajeNacionalDePoblacion: _porcentajeMaximoActivo;
-        qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion  ;
+        qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion << "ntpa"<< numeroTotalDePoblacionActiva ;
     }
 }
 

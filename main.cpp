@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
-
+    map->inputHandler()->setMouseButtonPopupEnabled(Qt::LeftButton, false);
+    map->inputHandler()->setMouseButtonPopupEnabled(Qt::RightButton, false);
     map->centerOn(-102.71667, 21.85);
 
     contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());

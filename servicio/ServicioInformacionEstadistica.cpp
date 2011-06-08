@@ -12,6 +12,9 @@
 ServicioInformacionEstadistica::ServicioInformacionEstadistica()
 {
     elementos = new QMap<int, QMap<int, EntidadFederativa *> *>;
+    baseDatos = QSqlDatabase::addDatabase("QSQLITE");
+    baseDatos.setDatabaseName("info.sqlite");
+    baseDatos.setHostName("localhost");
 }
 
 ServicioInformacionEstadistica::~ServicioInformacionEstadistica()
@@ -64,9 +67,6 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
 
     nElementosMax = 0.0;
 
-    QSqlDatabase baseDatos = QSqlDatabase::addDatabase("QSQLITE");
-    baseDatos.setDatabaseName("info.sqlite");
-    baseDatos.setHostName("localhost");
     if(baseDatos.open())
     {
         qDebug() << "obtenerElementos::open";
@@ -82,18 +82,28 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
         int nEntidadR = query.record().indexOf("n_entidad");
         int longitudR = query.record().indexOf("longitud");
         int latitudR = query.record().indexOf("latitud");
-
+        int periodo = query.record().indexOf("periodo");
         query.exec();
         while(query.next())
         {
             int entidad = query.value(entidadR).toInt();
 
             EntidadFederativa * entidadSalida;
-            entidadSalida = salida->contains(entidad) ? salida->value(entidad) : new EntidadFederativa;
-            entidadSalida->nombre = query.value(nEntidadR).toString();
+            if( salida->contains(entidad))
+                entidadSalida =  (*salida)[entidad];
+            else
+            {
+                entidadSalida = new EntidadFederativa;
+                entidadSalida->nombre = query.value(nEntidadR).toString();
+                entidadSalida->longitud = query.value(longitudR).toDouble();
+                entidadSalida->latitud = query.value(latitudR).toDouble();
+                entidadSalida->numeroPeriodo = query.value(periodo).toInt();
+                entidadSalida->nHombresPorEntidad=0;
+                entidadSalida->nMujeresPorEntidad=0;
+                entidadSalida->totalDePoblacion=0;
+                salida->insert(entidad, entidadSalida);
 
-            entidadSalida->longitud = query.value(longitudR).toDouble();
-            entidadSalida->latitud = query.value(latitudR).toDouble();
+            }
 
             PoblacionPorRangoDeEdad * poblacionPorRangoDeEdad = new PoblacionPorRangoDeEdad;
             poblacionPorRangoDeEdad->setNombre(query.value(grupoR).toString());
@@ -109,10 +119,11 @@ QMap<int, EntidadFederativa *> * ServicioInformacionEstadistica::obtenerElemento
             entidadSalida->totalDePoblacion += poblacionPorRangoDeEdad->getTotalDePoblacion();
             entidadSalida->ragosDeEdad.append(poblacionPorRangoDeEdad);
 
-            (*salida)[entidad] = entidadSalida;
+            //qDebug()<<"entidad Obtenida por la Bds "<< entidadSalida->nombre << " np= " << entidadSalida->numeroPeriodo << " poblacion=" << entidadSalida->totalDePoblacion << " sumaTotlde RE="<< poblacionPorRangoDeEdad->getTotalDePoblacion();
         }
 
         baseDatos.close();
+        qDebug()<< "cerrando DBs";
     }
 
     return salida;

@@ -2,6 +2,7 @@
 #define SERVICIOINFORMACIONESTADISTICA_H
 #include "IServicioInformacionEstadistica.h"
 #include <QMap>
+#include <QSqlDatabase>
 
 
 class ServicioInformacionEstadistica : public IServicioInformacionEstadistica
@@ -18,6 +19,7 @@ private:
         QMap<int, EntidadFederativa*> * obtenerElementos(int periodo);
         QMap<int, QMap<int, EntidadFederativa*> * > * elementos;
         double nElementosMax;
+        QSqlDatabase baseDatos;
 };
 
 
