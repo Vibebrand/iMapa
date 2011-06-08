@@ -149,6 +149,7 @@ void ControladorDeBurbujas::cmdAdelantarPeriodo()
 void ControladorDeBurbujas::cmdAtrasarPerioro()
 {
     animacion = false;
+    seconds.stop();
     if(periodoEstadisticoActivo>1)
     {
         --periodoEstadisticoActivo;
@@ -184,12 +185,11 @@ ControladorDeBurbujas::~ControladorDeBurbujas()
 //TODO corregir esto
 void ControladorDeBurbujas::actualizarRadio(int zoom)
 {
-    if( zoom > zoomInicial)
-        clasePrivada->radioMaximo+=10;
-    if( zoom < zoomInicial)
-        clasePrivada->radioMaximo=(clasePrivada->radioMaximo<0)?0:clasePrivada->radioMaximo-=10;
+    if(zoomInicial)
+        zoomInicial = zoom-1000;
+    zoom= zoom-1000;
 
-    zoomInicial =zoom;
+    double radioResultante  = (zoom * 200 )/1100;
+    clasePrivada->radioMaximo =( (radioResultante<= 50) || ( zoom <= zoomInicial)  )?50:radioResultante;
     agregarBurbujasAlMapa();
-    qDebug()<< "zoom="<< zoom << " radio=" << clasePrivada->radioMaximo;
 }
