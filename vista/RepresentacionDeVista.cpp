@@ -9,12 +9,19 @@ RepresentacionDeVista::RepresentacionDeVista()
 
 bool RepresentacionDeVista::gestionaEvento(QEvent * event)
 {
-    if ( event->type() ==
-            QEvent::TouchBegin ||
-            event->type() == QEvent::TouchUpdate ||
-            event->type() == QEvent::TouchEnd)
-    {
+    switch (event->type()) {
+        case QEvent::TouchBegin:
+        case QEvent::TouchUpdate:
+        case QEvent::TouchEnd:
+        {
         QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>( event )->touchPoints();
+
+        if(touchPoints.count()>=1)
+        {
+            const QTouchEvent::TouchPoint &touchPoint = touchPoints.first();
+            _proxy->setX( (touchPoint.pos().x()/2)  );
+            _proxy->setY( (touchPoint.pos().y()/2)  );
+        }
 
         if (touchPoints.count() == 2)
         {
@@ -23,15 +30,20 @@ bool RepresentacionDeVista::gestionaEvento(QEvent * event)
             QLineF linea1(touchPoint0.startPos(), touchPoint1.startPos());
             QLineF linea2(touchPoint0.pos(), touchPoint1.pos());
 
-            qreal currentScaleFactor = linea2.length()/linea1.length();
-            qreal angle = linea2.angleTo(linea1);
-            qreal scale = totalScaleFactor * currentScaleFactor;
-            qDebug()<<"escala="<<scale;
-           _proxy->setScale(scale);
-           //_proxy->rotate(angle);
+            QLineF line1(touchPoint0.lastScenePos(), touchPoint1.lastScenePos());
+            QLineF line2(touchPoint0.scenePos(), touchPoint1.scenePos());
 
+            qreal currentScaleFactor = linea2.length()/linea1.length();
+            qreal angle = line2.angleTo(line1);
+            qreal scale = totalScaleFactor * currentScaleFactor;
+           _proxy->setScale(scale);
+           _proxy->rotate(angle);
         }
+        break;
      }
+     default:
+        eventFilter(this, event);
+    }
     return eventFilter(this, event);
 }
 
