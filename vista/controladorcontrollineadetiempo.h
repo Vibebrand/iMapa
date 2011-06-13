@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QWidget>
 #include <QDeclarativeView>
+#include "RepresentacionDeVista.h"
+#include "IWidgetInterno.h"
 
 class ControladorControlLineaDeTiempo : public QObject
 {
@@ -15,7 +17,7 @@ public:
     Q_INVOKABLE void playClicked();
     Q_INVOKABLE void adelanteClicked();
 
-    QWidget * widget();
+    IWidgetInterno * widget();
 
 signals:
     void atras();
@@ -25,7 +27,7 @@ signals:
 public slots:
 
 private:
-    QDeclarativeView view;
+    RepresentacionDeVista view;
 
 };
 

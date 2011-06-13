@@ -78,13 +78,15 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
     escena->addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }
 
-void ContenedorPrincipal::agregarWidget(QString nombre, QWidget *widget)
+void ContenedorPrincipal::agregarWidget(QString nombre, IWidgetInterno *widget)
 {
-    WidgetInterno wi = WidgetInterno(widget, escena->addWidget(widget));
-    wi.proxy->setAcceptTouchEvents(true);
+    widget->widget()->setObjectName(nombre);
+    widget->establecerProxy(escena->addWidget(widget->widget()));
+    widget->proxy()->setAcceptTouchEvents(true);
     if(!nombre.compare("controladorPiramidePoblacional")) // TODO Evitar hardcode
-        wi.proxy->translate(0, escena->height() - widget->height());
-    widgetsInternos.insert(nombre, wi);
+        widget->proxy()->translate(0, escena->height() - widget->widget()->height());
+
+    widgetsInternos.insert(nombre, widget);
 }
 
 ContenedorPrincipal::~ContenedorPrincipal()

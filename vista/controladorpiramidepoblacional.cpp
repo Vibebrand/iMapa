@@ -62,7 +62,7 @@ void ControladorPiramidePoblacional::estableceModelo(EntidadFederativa * entidad
     }
 }
 
-QWidget * ControladorPiramidePoblacional::widget()
+IWidgetInterno * ControladorPiramidePoblacional::widget()
 {
     return &view;
 }

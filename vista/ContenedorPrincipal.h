@@ -6,6 +6,7 @@
 #include <QGraphicsProxyWidget>
 #include <QWidget>
 #include <QMap>
+#include "IWidgetInterno.h"
 
 struct WidgetInterno{
     QWidget *widget;
@@ -22,13 +23,13 @@ class ContenedorPrincipal : public QObject
 public:
     ContenedorPrincipal(QObject* parent, QWidget* awidgetDeFondo);
     virtual ~ContenedorPrincipal();
-    void agregarWidget(QString nombre, QWidget *widget);
+    void agregarWidget(QString nombre, IWidgetInterno *widget);
     QWidget* obtenerRepresentacionVista() const;
 private:
     QWidget* widgetDeFondo;
     QGraphicsScene *escena;
     QGraphicsView * representacionVista;
-    QMap<QString, WidgetInterno> widgetsInternos;
+    QMap<QString, IWidgetInterno*> widgetsInternos;
 };
 
 

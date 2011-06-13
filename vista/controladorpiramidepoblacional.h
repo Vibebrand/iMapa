@@ -5,9 +5,10 @@
 #include <QWidget>
 #include <QDeclarativeContext>
 #include <QDeclarativeView>
-
+#include "RepresentacionDeVista.h"
 #include "modelo/EntidadFederativa.h"
 #include "modelo/PoblacionPorRangoDeEdad.h"
+#include "IWidgetInterno.h"
 
 class ControladorPiramidePoblacional : public QObject
 {
@@ -19,7 +20,7 @@ public:
     Q_INVOKABLE double calculaAncho(double cantidad);
     Q_INVOKABLE double cantidadDesface(double cantidad);
 
-    QWidget * widget();
+    IWidgetInterno * widget();
 
 signals:
 
@@ -27,7 +28,7 @@ public slots:
     void estableceModelo(EntidadFederativa *);
 
 private:
-    QDeclarativeView view;
+    RepresentacionDeVista view;
     QDeclarativeContext * contexto;
     QList<QObject *> listaVacia;
 

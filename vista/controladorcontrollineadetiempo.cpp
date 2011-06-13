@@ -31,7 +31,7 @@ void ControladorControlLineaDeTiempo::adelanteClicked()
     emit adelante();
 }
 
-QWidget * ControladorControlLineaDeTiempo::widget()
+IWidgetInterno * ControladorControlLineaDeTiempo::widget()
 {
     return &view;
 }
