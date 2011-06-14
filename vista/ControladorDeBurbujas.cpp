@@ -206,7 +206,9 @@ void ControladorDeBurbujas::actualizarRadio(int zoom)
 
     double radioResultante  = (zoom * 150 )/1100;
     clasePrivada->radioMaximo =( (radioResultante<= 50) || ( zoom <= zoomInicial)  )?50:radioResultante;
-    agregarBurbujasAlMapa();
+
+    if(!_delegadosObjetoBurbuja.isEmpty())
+        agregarBurbujasAlMapa();
 }
 
 QTimer* ControladorDeBurbujas::periodoDeActualizacionDelMapa()
