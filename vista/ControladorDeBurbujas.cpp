@@ -110,9 +110,6 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
             if(_controladorPluginBurbujas)
                 _delegadosObjetoBurbuja[burbuja.nombre] = _controladorPluginBurbujas->agregarElemento(burbuja);
         }
-        /*_delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
-                    clasePrivada->asignarRadioEnFuncionPorcentajeMaximoActivo(
-                        entidad));*/
         _delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
                             clasePrivada->asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(entidad));
 
@@ -123,7 +120,7 @@ void ControladorDeBurbujas::cmdIniciarSecuenciaDePeriodos()
 {
     animacion = true;
     qDebug()<< "iniciada secuencia";
-    seconds.setInterval(5000);
+    seconds.setInterval(3000);
     agregarBurbujasAlMapa();
     QObject::connect(&seconds,SIGNAL(timeout()), this, SLOT(agregarBurbujasAlMapa()));
     seconds.start();
@@ -189,7 +186,7 @@ void ControladorDeBurbujas::actualizarRadio(int zoom)
         zoomInicial = zoom-1000;
     zoom= zoom-1000;
 
-    double radioResultante  = (zoom * 200 )/1100;
+    double radioResultante  = (zoom * 150 )/1100;
     clasePrivada->radioMaximo =( (radioResultante<= 50) || ( zoom <= zoomInicial)  )?50:radioResultante;
     agregarBurbujasAlMapa();
 }

@@ -73,7 +73,7 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
 
     representacionVista->setScene(escena);
     representacionVista->setRenderHint(QPainter::Antialiasing);
-    representacionVista->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
+    representacionVista->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     escena->addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }

@@ -32,13 +32,24 @@ bool RepresentacionDeVista::gestionaEvento(QEvent * event)
 
             QLineF line1(touchPoint0.lastScenePos(), touchPoint1.lastScenePos());
             QLineF line2(touchPoint0.scenePos(), touchPoint1.scenePos());
+            if (linea1.length()>0)
+            {
+                qreal currentScaleFactor = linea2.length()/linea1.length();
+                qreal scale = totalScaleFactor * currentScaleFactor;
+               _proxy->setScale(scale);
+            }
 
-            qreal currentScaleFactor = linea2.length()/linea1.length();
             qreal angle = line2.angleTo(line1);
-            qreal scale = totalScaleFactor * currentScaleFactor;
-           _proxy->setScale(scale);
+
            _proxy->rotate(angle);
         }
+        break;
+     }
+     case QEvent::MouseMove:
+     {
+         QMouseEvent *e = static_cast<QMouseEvent*>( event );
+        _proxy->setX(e->x()/2);
+        _proxy->setY(e->y()/2);
         break;
      }
      default:
@@ -61,5 +72,3 @@ QWidget* RepresentacionDeVista::widget()
 {
     return this;
 }
-
-
