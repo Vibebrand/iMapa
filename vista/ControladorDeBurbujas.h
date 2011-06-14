@@ -35,6 +35,7 @@ public slots:
     void cmdAtrasarPerioro();
     void agregarBurbujasAlMapa();
     void actualizarRadio(int zoom);
+    void actualizarEntidadSeleccionada();
 
 signals:
     void cambioDePeriodo();
@@ -46,8 +47,8 @@ private:
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
     int periodoEstadisticoActivo;
+    QString ultimaEntidadSeleccionada;
     int numeroPeriodos;
-    bool animacion;
     QTimer refrecadoDeDatosEnBurbujas;
     QTimer *actualizarMapa;
     ControladorDeBurbujasPrivate* clasePrivada;
