@@ -28,7 +28,7 @@ public:
     ~ControladorDeBurbujas();
     void elementoSeleccionado(QString nombre);
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
-
+    QTimer* periodoDeActualizacionDelMapa();
 public slots:
     void cmdIniciarSecuenciaDePeriodos();
     void cmdAdelantarPeriodo();
@@ -48,7 +48,8 @@ private:
     int periodoEstadisticoActivo;
     int numeroPeriodos;
     bool animacion;
-    QTimer seconds;
+    QTimer refrecadoDeDatosEnBurbujas;
+    QTimer *actualizarMapa;
     ControladorDeBurbujasPrivate* clasePrivada;
     int zoomInicial;
 };
