@@ -6,6 +6,7 @@
 #include <QDeclarativeView>
 #include "RepresentacionDeVista.h"
 #include "IWidgetInterno.h"
+#include "modelo/EntidadFederativa.h"
 
 class ControladorControlLineaDeTiempo : public QObject
 {
@@ -25,7 +26,8 @@ signals:
     void adelante();
 
 public slots:
-    void cambioDePeriodo();
+    void cambioDePeriodo(int indicador);
+    void estableceModelo(EntidadFederativa* entidad);
 
 private:
     RepresentacionDeVista view;

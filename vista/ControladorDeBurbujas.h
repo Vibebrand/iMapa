@@ -38,6 +38,7 @@ public slots:
     void actualizarEntidadSeleccionada();
 
 signals:
+    void cambioDePeriodo(int indicador);
     void cambioDePeriodo();
     void entidadSeleccionada(EntidadFederativa *entidad);
 

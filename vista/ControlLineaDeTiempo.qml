@@ -1,6 +1,5 @@
 import Qt 4.7
 
-import Qt 4.7
 Rectangle {
     id:control
     width:280
@@ -18,6 +17,48 @@ Rectangle {
         y: 17
         width: 305
         height: 310
+
+        Column
+        {
+            x: 0
+            spacing:20
+            anchors.top: parent.top
+            anchors.topMargin: 50
+            anchors.right: parent.right
+            anchors.rightMargin: 100
+            anchors.centerIn: parent.anchors
+            Text {
+                id: nombreEntidad
+                text: _nombreEntidad
+                font.bold: true
+                font.pointSize: 20
+                smooth: true
+                horizontalAlignment: Text.AlignRight
+                color: "white"
+            }
+
+            Text {
+                id: porcentajeNacional
+                color: "white"
+                text: _porcentajeNacional
+                verticalAlignment: Text.AlignVCenter
+                font.bold: true
+                font.pointSize: 20
+                smooth: true
+                horizontalAlignment: Text.AlignRight
+            }
+
+            Text {
+                id: numeroHabitantes
+                text: _numeroPoblacion
+                color: "white"
+                verticalAlignment: Text.AlignVCenter
+                font.bold: true
+                font.pointSize: 20
+                smooth: true
+                horizontalAlignment: Text.AlignRight
+            }
+        }
     }
 
     BorderImage {
@@ -107,6 +148,8 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 delegado.atrasClicked();
+                animacionBarra2.start();
+                animacionBarra3.start();
             }
         }
     }
@@ -123,7 +166,38 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 delegado.playClicked();
+                animacionBarra.start();
+                animacionBarra1.start();
             }
         }
     }
+
+    NumberAnimation {
+        id: animacionBarra1;
+        targets: control;
+        property: "width";
+        to:420;
+        duration: 1500 }
+
+    NumberAnimation {
+        id: animacionBarra;
+        targets: barra;
+        property: "width";
+        to:500;
+        duration: 1500 }
+
+    NumberAnimation {
+        id: animacionBarra2;
+        targets: barra;
+        property: "width";
+        to:305;
+        duration: 1500 }
+
+    NumberAnimation {
+        id: animacionBarra3;
+        targets: control;
+        property: "width";
+        to:280;
+        duration: 1500 }
+
 }

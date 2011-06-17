@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(map->inputHandler(), SIGNAL(mouseClickScreenPosition(int,int)), map, SLOT(gestionaAccionPluginItems(int,int)));
     QObject::connect(controladorBurbujas, SIGNAL(entidadSeleccionada(EntidadFederativa*)), controladorPiramidePoblacional, SLOT(estableceModelo(EntidadFederativa*)));
-
+    QObject::connect(controladorBurbujas, SIGNAL(entidadSeleccionada(EntidadFederativa*)), lineaDeTiempo, SLOT(estableceModelo(EntidadFederativa*)));
     map->setObjectName("mapa");
     map->setMapThemeId("earth/srtm/srtm.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(cmdIniciarSecuenciaDePeriodos()));
     QObject::connect(lineaDeTiempo, SIGNAL(adelante()), controladorBurbujas, SLOT(cmdAdelantarPeriodo()));
     QObject::connect(lineaDeTiempo, SIGNAL(atras()), controladorBurbujas, SLOT(cmdAtrasarPerioro()));
-    QObject::connect(controladorBurbujas,SIGNAL(cambioDePeriodo()), lineaDeTiempo, SLOT(cambioDePeriodo()));
+    QObject::connect(controladorBurbujas,SIGNAL(cambioDePeriodo(int)), lineaDeTiempo, SLOT(cambioDePeriodo(int)));
 
     QObject::connect(controladorBurbujas->periodoDeActualizacionDelMapa(),SIGNAL(timeout()), map, SLOT(update()));
     QObject::connect(map, SIGNAL(zoomChanged(int)),controladorBurbujas, SLOT(actualizarRadio(int)));

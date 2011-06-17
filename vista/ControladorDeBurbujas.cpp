@@ -85,6 +85,7 @@ ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * s
     clasePrivada->obtenerPoblacionMaximaEntreLosPeriodos(_servicioInformacionEstadistica);
     QObject::connect(this, SIGNAL(cambioDePeriodo()), this, SLOT(agregarBurbujasAlMapa()));
     QObject::connect(this, SIGNAL(cambioDePeriodo()), this, SLOT(actualizarEntidadSeleccionada()));
+    QObject::connect(&refrecadoDeDatosEnBurbujas,SIGNAL(timeout()), this, SLOT(cmdAdelantarPeriodo()));
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
@@ -119,8 +120,6 @@ void ControladorDeBurbujas::cmdIniciarSecuenciaDePeriodos()
 {
 
     agregarBurbujasAlMapa();
-    QObject::connect(&refrecadoDeDatosEnBurbujas,SIGNAL(timeout()), this, SLOT(cmdAdelantarPeriodo()));
-
     if(!refrecadoDeDatosEnBurbujas.isActive())
         refrecadoDeDatosEnBurbujas.start();
     if(!actualizarMapa->isActive())
@@ -133,6 +132,7 @@ void ControladorDeBurbujas::cmdAdelantarPeriodo()
     {
         periodoEstadisticoActivo++;
         emit cambioDePeriodo();
+        emit cambioDePeriodo(1);
         qDebug()<< periodoEstadisticoActivo;
     }
     else
@@ -152,6 +152,7 @@ void ControladorDeBurbujas::cmdAtrasarPerioro()
     {
         --periodoEstadisticoActivo;
         emit cambioDePeriodo();
+        emit cambioDePeriodo(0);
         qDebug()<<"atras="<<periodoEstadisticoActivo;
     }else
     {
@@ -204,8 +205,8 @@ void ControladorDeBurbujas::actualizarRadio(int zoom)
         zoomInicial = zoom-1000;
     zoom= zoom-1000;
 
-    double radioResultante  = (zoom * 150 )/1100;
-    clasePrivada->radioMaximo =( (radioResultante<= 50) || ( zoom <= zoomInicial)  )?50:radioResultante;
+    double radioResultante  = (zoom * 250 )/1100;
+    clasePrivada->radioMaximo =( (radioResultante<= 70) || ( zoom <= zoomInicial)  )?50:radioResultante;
 
     if(!_delegadosObjetoBurbuja.isEmpty())
         agregarBurbujasAlMapa();
