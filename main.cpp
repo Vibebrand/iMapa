@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(cmdIniciarSecuenciaDePeriodos()));
     QObject::connect(lineaDeTiempo, SIGNAL(adelante()), controladorBurbujas, SLOT(cmdAdelantarPeriodo()));
     QObject::connect(lineaDeTiempo, SIGNAL(atras()), controladorBurbujas, SLOT(cmdAtrasarPerioro()));
+    QObject::connect(controladorBurbujas,SIGNAL(cambioDePeriodo()), lineaDeTiempo, SLOT(cambioDePeriodo()));
 
     QObject::connect(controladorBurbujas->periodoDeActualizacionDelMapa(),SIGNAL(timeout()), map, SLOT(update()));
     QObject::connect(map, SIGNAL(zoomChanged(int)),controladorBurbujas, SLOT(actualizarRadio(int)));

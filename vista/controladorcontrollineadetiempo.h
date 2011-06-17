@@ -25,9 +25,11 @@ signals:
     void adelante();
 
 public slots:
+    void cambioDePeriodo();
 
 private:
     RepresentacionDeVista view;
+    int anguloDeRotacion;
 
 };
 

@@ -8,7 +8,9 @@
 ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent) :
     QObject(parent)
 {
+    anguloDeRotacion=76;
     view.rootContext()->setContextProperty("delegado", this);
+    view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
     view.setSource(QUrl("qrc:/qml/ControlLineaDeTiempo.qml"));
 
     view.setAttribute(Qt::WA_TranslucentBackground);
@@ -18,6 +20,7 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
 void ControladorControlLineaDeTiempo::atrasClicked()
 {
     emit atras();
+
 }
 
 void ControladorControlLineaDeTiempo::playClicked()
@@ -34,4 +37,10 @@ void ControladorControlLineaDeTiempo::adelanteClicked()
 IWidgetInterno * ControladorControlLineaDeTiempo::widget()
 {
     return &view;
+}
+
+void ControladorControlLineaDeTiempo::cambioDePeriodo()
+{
+    anguloDeRotacion -=20;
+    view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
 }
