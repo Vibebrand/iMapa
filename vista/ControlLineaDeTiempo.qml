@@ -17,6 +17,50 @@ Rectangle {
         y: 17
         width: 305
         height: 310
+        state: _animacion
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                delegado.cambiaEstado();
+            }
+        }
+
+        states: [
+            State {
+                name: "animacionBarraCreciendo"
+                PropertyChanges {
+                    target: control
+                    width: 420
+                }
+
+                PropertyChanges {
+                    target: barra
+                    width:500
+                }
+            },
+            State {
+            name: "animacionBarraDecreciendo"
+                PropertyChanges {
+                    target: barra
+                    width:305
+                }
+                PropertyChanges {
+                    target: control
+                    width:280
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                NumberAnimation
+                {
+                    property:"width";
+                    easing.type:Easing.Linear;
+                    duration:1500
+                }
+            }
+        ]
 
         Column
         {
@@ -30,6 +74,7 @@ Rectangle {
             Text {
                 id: nombreEntidad
                 text: _nombreEntidad
+                wrapMode: Text.WordWrap
                 font.bold: true
                 font.pointSize: 20
                 smooth: true
@@ -148,8 +193,6 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 delegado.atrasClicked();
-                animacionBarra2.start();
-                animacionBarra3.start();
             }
         }
     }
@@ -166,38 +209,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 delegado.playClicked();
-                animacionBarra.start();
-                animacionBarra1.start();
             }
         }
     }
-
-    NumberAnimation {
-        id: animacionBarra1;
-        targets: control;
-        property: "width";
-        to:420;
-        duration: 1500 }
-
-    NumberAnimation {
-        id: animacionBarra;
-        targets: barra;
-        property: "width";
-        to:500;
-        duration: 1500 }
-
-    NumberAnimation {
-        id: animacionBarra2;
-        targets: barra;
-        property: "width";
-        to:305;
-        duration: 1500 }
-
-    NumberAnimation {
-        id: animacionBarra3;
-        targets: control;
-        property: "width";
-        to:280;
-        duration: 1500 }
-
 }

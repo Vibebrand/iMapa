@@ -13,6 +13,7 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
     view.rootContext()->setContextProperty("delegado", this);
     view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
     view.rootContext()->setContextProperty("_nombreEntidad", "");
+    view.rootContext()->setContextProperty("_animacion", "");
     view.rootContext()->setContextProperty("_porcentajeNacional", "");
     view.rootContext()->setContextProperty("_numeroPoblacion", "");
     view.setSource(QUrl("qrc:/qml/ControlLineaDeTiempo.qml"));
@@ -57,4 +58,13 @@ void ControladorControlLineaDeTiempo::estableceModelo(EntidadFederativa *entidad
     view.rootContext()->setContextProperty("_nombreEntidad", entidad->nombre);
     view.rootContext()->setContextProperty("_porcentajeNacional", porcentaje+"%");
     view.rootContext()->setContextProperty("_numeroPoblacion", numeroPoblacion);
+    view.rootContext()->setContextProperty("_animacion", "animacionBarraCreciendo");
+}
+
+void ControladorControlLineaDeTiempo::cambiaEstado()
+{
+    view.rootContext()->setContextProperty("_animacion", "animacionBarraDecreciendo");
+    view.rootContext()->setContextProperty("_nombreEntidad", "");
+    view.rootContext()->setContextProperty("_porcentajeNacional", "");
+    view.rootContext()->setContextProperty("_numeroPoblacion", "");
 }

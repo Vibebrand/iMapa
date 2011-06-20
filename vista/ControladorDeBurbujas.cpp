@@ -94,9 +94,9 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
         delete _entidadesFederativasActivaas;
 
     _entidadesFederativasActivaas = _servicioInformacionEstadistica->obtenerPeriodo(periodoEstadisticoActivo);
-    //clasePrivada->obtenerPorcentajeMaximoActivo(
-      //          _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo(),
-        //        _entidadesFederativasActivaas);
+    clasePrivada->obtenerPorcentajeMaximoActivo(
+                _servicioInformacionEstadistica->obtenerTotalDePoblacionPorPeriodo(),
+                _entidadesFederativasActivaas);
 
     foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
     {

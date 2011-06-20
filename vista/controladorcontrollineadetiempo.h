@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE void atrasClicked();
     Q_INVOKABLE void playClicked();
     Q_INVOKABLE void adelanteClicked();
+    Q_INVOKABLE void cambiaEstado();
 
     IWidgetInterno * widget();
 
