@@ -41,14 +41,15 @@ int main(int argc, char *argv[])
     map->inputHandler()->setMouseButtonPopupEnabled(Qt::RightButton, false);
     map->centerOn(-102.71667, 21.85);
 
-    contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget());
-    contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget());
 
     QGraphicsView * view = qobject_cast<QGraphicsView *>(contenedor->obtenerRepresentacionVista());
 
     QTuio tuio(view);
     contenedor->obtenerRepresentacionVista()->showFullScreen();
     tuio.run();
+
+    contenedor->agregarWidget("controladorPiramidePoblacional", controladorPiramidePoblacional->widget(), ContenedorPrincipal::DerechaArriba);
+    contenedor->agregarWidget("lineaDeTiempo", lineaDeTiempo->widget(), ContenedorPrincipal::IzquierdaAbajo);
 
     enlazarPluginAControlador(map, controladorBurbujas);
     QObject::connect(lineaDeTiempo, SIGNAL(play()), controladorBurbujas, SLOT(cmdIniciarSecuenciaDePeriodos()));

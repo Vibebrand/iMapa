@@ -21,10 +21,18 @@ class ContenedorPrincipal : public QObject
 {
     Q_OBJECT
 public:
+    enum Posicion
+    {
+        IzquierdaArriba,
+        IzquierdaAbajo,
+        DerechaArriba,
+        DerechaAbajo
+    };
     ContenedorPrincipal(QObject* parent, QWidget* awidgetDeFondo);
     virtual ~ContenedorPrincipal();
-    void agregarWidget(QString nombre, IWidgetInterno *widget);
+    void agregarWidget(QString nombre, IWidgetInterno *widget, ContenedorPrincipal::Posicion posicion);
     QWidget* obtenerRepresentacionVista() const;
+
 private:
     QWidget* widgetDeFondo;
     QGraphicsScene *escena;

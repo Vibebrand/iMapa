@@ -15,5 +15,9 @@
         <file alias="nxt.png">Imagenes/nxt.png</file>
         <file alias="paly.png">Imagenes/paly.png</file>
         <file alias="rtrn.png">Imagenes/rtrn.png</file>
+        <file alias="barraHombres.png">Imagenes/barraHombres.png</file>
+        <file alias="barraMujeres.png">Imagenes/barraMujeres.png</file>
+        <file alias="fondo_piramide.png">Imagenes/fondo_piramide.png</file>
+        <file alias="transparencia_piramide.png">Imagenes/transparencia_piramide.png</file>
     </qresource>
 </RCC>
