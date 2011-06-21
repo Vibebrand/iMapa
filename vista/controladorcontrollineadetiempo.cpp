@@ -53,11 +53,14 @@ void ControladorControlLineaDeTiempo::cambioDePeriodo(int indicador)
 
 void ControladorControlLineaDeTiempo::estableceModelo(EntidadFederativa *entidad)
 {
-    QString porcentaje =  QString::number( entidad->porcentajeNacionalDePoblacion);
-    QString numeroPoblacion = QString::number( entidad->totalDePoblacion);
+    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+    QString porcentaje =  QString("%L2").arg( entidad->porcentajeNacionalDePoblacion);
+    long n2 = entidad->totalDePoblacion;
+    QString numeroPoblacion = QString("%L2").arg( n2);
+
     view.rootContext()->setContextProperty("_nombreEntidad", entidad->nombre);
     view.rootContext()->setContextProperty("_porcentajeNacional", porcentaje+"%");
-    view.rootContext()->setContextProperty("_numeroPoblacion", numeroPoblacion);
+    view.rootContext()->setContextProperty("_numeroPoblacion", numeroPoblacion+" hbt");
     view.rootContext()->setContextProperty("_animacion", "animacionBarraCreciendo");
 }
 

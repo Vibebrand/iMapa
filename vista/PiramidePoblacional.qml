@@ -9,7 +9,7 @@ Rectangle
     property int offset: 50
 
     width: tamagnoLista + offset + 100
-    height: 326
+    height: 357
     color: "#00000000"
 
     BorderImage {
@@ -18,7 +18,7 @@ Rectangle
         x: -18
         y: -18
         width: 510
-        height: 382
+        height: 415
         anchors.rightMargin: -32
         anchors.bottomMargin: -19
         anchors.leftMargin: -18
@@ -48,7 +48,6 @@ Rectangle
             border.left: 5; border.top: 5
             border.right: 5; border.bottom: 5
 
-
             ListView {
                 id: lista
                 x: 0
@@ -58,13 +57,13 @@ Rectangle
                 anchors.bottomMargin: 10
                 anchors.topMargin: 10
                 anchors.fill: parent
-                opacity: 0.9
+                opacity: 0.8
                 model: modelo
                 delegate:  Row {
 
-                    property real anchoIzq : delegado.calculaAncho(numeroDeHombres)
-                    property real anchoDer : delegado.calculaAncho(numeroDeMujeres)
-                    property real desfase : delegado.cantidadDesface(numeroDeHombres)
+                    property real anchoIzq : delegado.calculaAncho(numeroDeMujeres)
+                    property real anchoDer : delegado.calculaAncho(numeroDeHombres)
+                    property real desfase : delegado.cantidadDesface(numeroDeMujeres)
 
                     Text {
                         text: nombre
@@ -82,17 +81,76 @@ Rectangle
                     }
 
                     Rectangle {
+                        id:indicadorMujeres
                         width: anchoIzq
                         height: alto
-                        border.color: "black"
-                        color: "blue"
+                        border.width: 2
+                        border.color: "#0b4241"
+                        smooth: true
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0
+                                color: "#6ddddb"
+                            }
+
+                            GradientStop {
+                                position: 1
+                                color: "#093837"
+                            }
+                        }
+                        MouseArea{
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            animacionTexto1.stop();
+                            cantidadPersonas.text=numeroDeMujeres;
+                            cantidadPersonas.text+=" Mujeres";
+                            cantidadPersonas.opacity=1;
+                            animacionTexto1.start();
+                        }
+                       }
                     }
 
                     Rectangle {
+                        id:indicadorHombres
                         width: anchoDer
                         height: alto
-                        border.color: "black"
-                        color: "green"
+                        border.width: 2
+                        border.color: "#404040"
+                        smooth: true
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0
+                                color: "#f7f7f7"
+                            }
+
+                            GradientStop {
+                                position: 0.94
+                                color: "#444444"
+                            }
+                        }
+
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                animacionTexto1.stop();
+                                cantidadPersonas.text=numeroDeHombres;
+                                cantidadPersonas.text+=" Hombres";
+                                cantidadPersonas.opacity=1;
+                                animacionTexto1.start();
+                            }
+                        }
+                    }
+
+
+                    PropertyAnimation
+                    {
+                        id:animacionTexto1
+                        target:cantidadPersonas
+                        property:"opacity"
+                        to:"0";
+                        duration:3500;
                     }
                 }
             }
@@ -117,6 +175,54 @@ Rectangle
         verticalAlignment: Text.AlignVCenter
         font.pointSize: 12
     }
+
+    Text {
+        id: cantidadPersonas
+        x: 335
+        y: 47
+        width: 100
+        height: 20
+        color: "white"
+        text: ""
+        anchors.right: parent.right
+        anchors.rightMargin: 44
+        horizontalAlignment: Text.AlignRight
+        font.bold: true
+        smooth: true
+        font.pixelSize: 12
+        }
+
+        Text {
+            id: porcentajeHombres
+            x: 324
+            y: 118
+            width: 80
+            height: 20
+            color: "white"
+            smooth: true
+            text: _porcentajeHombres
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+            anchors.right: parent.right
+            anchors.rightMargin: 47
+            font.pixelSize: 12
+        }
+
+        Text {
+            id: porcentajeMujeres
+            x: 136
+            y: 118
+            width: 80
+            height: 20
+            color: "white"
+            text: _porcentajeMujeres
+            smooth: true
+            font.bold: true
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 12
+        }
 
 
 
