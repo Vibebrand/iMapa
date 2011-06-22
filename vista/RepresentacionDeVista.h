@@ -8,6 +8,7 @@ class RepresentacionDeVista : public QDeclarativeView, public IGestionaEvento, p
 {
 public:
     explicit RepresentacionDeVista();
+    virtual ~RepresentacionDeVista();
     bool gestionaEvento(QEvent * event);
     void establecerProxy(QGraphicsProxyWidget *proxy);
     QGraphicsProxyWidget* proxy();
@@ -15,6 +16,7 @@ public:
 private:
     qreal totalScaleFactor;
     QGraphicsProxyWidget *_proxy;
+    QPointF *posicionTouch;
 };
 
 #endif // REPRESENTACIONDEVISTA_H

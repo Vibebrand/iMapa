@@ -10,12 +10,15 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
     QObject(parent)
 {
     anguloDeRotacion=80;
+    periodoActivo=1900;
     view.rootContext()->setContextProperty("delegado", this);
     view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
     view.rootContext()->setContextProperty("_nombreEntidad", "");
     view.rootContext()->setContextProperty("_animacion", "");
     view.rootContext()->setContextProperty("_porcentajeNacional", "");
     view.rootContext()->setContextProperty("_numeroPoblacion", "");
+    view.rootContext()->setContextProperty("_periodoActivo", "1900");
+
     view.setSource(QUrl("qrc:/qml/ControlLineaDeTiempo.qml"));
 
     view.setAttribute(Qt::WA_TranslucentBackground);
@@ -48,7 +51,9 @@ void ControladorControlLineaDeTiempo::cambioDePeriodo(int indicador)
 {
     //TODO: refactoring
     anguloDeRotacion =(indicador)?anguloDeRotacion-=21:anguloDeRotacion+=21;
+    periodoActivo =(!indicador)?periodoActivo-=10:periodoActivo+=10;
     view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
+     view.rootContext()->setContextProperty("_periodoActivo",  (periodoActivo==1920)?1921:periodoActivo );
 }
 
 void ControladorControlLineaDeTiempo::estableceModelo(EntidadFederativa *entidad)

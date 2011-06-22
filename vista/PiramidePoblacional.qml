@@ -1,4 +1,5 @@
 import Qt 4.7
+import qmltouchareaplugin 1.0
 
 Rectangle
 {
@@ -11,6 +12,8 @@ Rectangle
     width: tamagnoLista + offset + 100
     height: 357
     color: "#00000000"
+
+
 
     BorderImage {
 
@@ -109,6 +112,22 @@ Rectangle
                             animacionTexto1.start();
                         }
                        }
+
+                        TouchArea
+                        {
+                            anchors.fill: parent
+                            minimumTouches: 1
+                            maximumTouches: 2
+                            onTouchStart:
+                            {
+                                animacionTexto1.stop();
+                                cantidadPersonas.text=numeroDeMujeres;
+                                cantidadPersonas.text+=" Mujeres";
+                                cantidadPersonas.opacity=1;
+                                animacionTexto1.start();
+                            }
+                        }
+
                     }
 
                     Rectangle {
@@ -133,6 +152,21 @@ Rectangle
                         MouseArea{
                             anchors.fill: parent
                             onClicked:
+                            {
+                                animacionTexto1.stop();
+                                cantidadPersonas.text=numeroDeHombres;
+                                cantidadPersonas.text+=" Hombres";
+                                cantidadPersonas.opacity=1;
+                                animacionTexto1.start();
+                            }
+                        }
+
+                        TouchArea
+                        {
+                            anchors.fill: parent
+                            minimumTouches: 1
+                            maximumTouches: 2
+                            onTouchStart:
                             {
                                 animacionTexto1.stop();
                                 cantidadPersonas.text=numeroDeHombres;

@@ -33,6 +33,7 @@ public slots:
 private:
     RepresentacionDeVista view;
     int anguloDeRotacion;
+    int periodoActivo;
 
 };
 

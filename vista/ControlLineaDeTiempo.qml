@@ -1,5 +1,5 @@
 import Qt 4.7
-
+import qmltouchareaplugin 1.0
 Rectangle {
     id:control
     width:280
@@ -23,6 +23,15 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 delegado.cambiaEstado();
+            }
+        }
+        TouchArea
+        {
+            anchors.fill: parent
+            minimumTouches: 1
+            maximumTouches: 2
+            onTouchStart: {
+                 delegado.cambiaEstado();
             }
         }
 
@@ -173,6 +182,17 @@ Rectangle {
                 delegado.adelanteClicked();
             }
         }
+
+        TouchArea
+        {
+            anchors.fill: parent
+            minimumTouches: 1
+            maximumTouches: 2
+            onTouchStart: {
+                 delegado.adelanteClicked();
+            }
+        }
+
     }
     BorderImage {
         id: rturn
@@ -195,6 +215,16 @@ Rectangle {
                 delegado.atrasClicked();
             }
         }
+
+        TouchArea
+        {
+            anchors.fill: parent
+            minimumTouches: 1
+            maximumTouches: 2
+            onTouchStart: {
+                 delegado.atrasClicked();
+            }
+        }
     }
     BorderImage {
         id: paly
@@ -211,5 +241,30 @@ Rectangle {
                 delegado.playClicked();
             }
         }
+        TouchArea
+        {
+            anchors.fill: parent
+            minimumTouches: 1
+            maximumTouches: 2
+            onTouchStart: {
+                 delegado.playClicked();
+            }
+        }
+    }
+
+    Text {
+        id: aniosTexto
+        x: 81
+        y: 199
+        width: 89
+        height: 35
+        color: "#ffffff"
+        text: _periodoActivo
+        opacity: 0.6
+        font.family: "Stencil"
+        smooth: true
+        font.bold: true
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: 45
     }
 }
