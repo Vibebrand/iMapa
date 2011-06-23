@@ -15,6 +15,8 @@ ControladorPiramidePoblacional::ControladorPiramidePoblacional(QObject *parent) 
     contexto->setContextProperty("titulo", "Piramide Poblacional");
     contexto->setContextProperty("delegado", this);
     contexto->setContextProperty("modelo", QVariant::fromValue(listaVacia));
+    contexto->setContextProperty("_porcentajeHombres", "");
+    contexto->setContextProperty("_porcentajeMujeres", "");
 
     view.setSource(QUrl("qrc:/qml/PiramidePoblacional.qml"));
 
@@ -40,7 +42,6 @@ void ControladorPiramidePoblacional::estableceModelo(EntidadFederativa * entidad
     if(contexto)
     {
         view.setVisible(true);
-
         anchoMax = 0;
 
         contexto->setContextProperty("titulo", entidad->nombre);
@@ -54,15 +55,22 @@ void ControladorPiramidePoblacional::estableceModelo(EntidadFederativa * entidad
             PoblacionPorRangoDeEdad * pobRangoEdad = (*it);
             int max = pobRangoEdad->getNumeroDeHombres() > pobRangoEdad->getNumeroDeMujeres() ? pobRangoEdad->getNumeroDeHombres() : pobRangoEdad->getNumeroDeMujeres();
             anchoMax = anchoMax > max ? anchoMax : max;
-
-            listaVacia.append(pobRangoEdad);
+            listaVacia.insert(listaVacia.begin(), pobRangoEdad);
         }
 
         contexto->setContextProperty("modelo", QVariant::fromValue(listaVacia));
+
+        double porcentajeHombres = entidad->nHombresPorEntidad*100/entidad->totalDePoblacion;
+        QString textoH = QString("Hombres\n") + (QString::number(porcentajeHombres))+"%";
+        contexto->setContextProperty("_porcentajeHombres", textoH);
+
+        double porcentajeMujeres = entidad->nMujeresPorEntidad*100/entidad->totalDePoblacion;
+        QString textoM = QString("Mujeres\n") +(QString::number(porcentajeMujeres))+"%";
+        contexto->setContextProperty("_porcentajeMujeres", textoM);
     }
 }
 
-QWidget * ControladorPiramidePoblacional::widget()
+IWidgetInterno * ControladorPiramidePoblacional::widget()
 {
     return &view;
 }

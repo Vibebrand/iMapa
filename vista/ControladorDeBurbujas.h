@@ -28,15 +28,17 @@ public:
     ~ControladorDeBurbujas();
     void elementoSeleccionado(QString nombre);
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
-
+    QTimer* periodoDeActualizacionDelMapa();
 public slots:
     void cmdIniciarSecuenciaDePeriodos();
     void cmdAdelantarPeriodo();
     void cmdAtrasarPerioro();
     void agregarBurbujasAlMapa();
     void actualizarRadio(int zoom);
+    void actualizarEntidadSeleccionada();
 
 signals:
+    void cambioDePeriodo(int indicador);
     void cambioDePeriodo();
     void entidadSeleccionada(EntidadFederativa *entidad);
 
@@ -46,9 +48,10 @@ private:
     QMap<QString, IDelegadoObjetoBurbuja* > _delegadosObjetoBurbuja;
     const QList<EntidadFederativa *>* _entidadesFederativasActivaas;
     int periodoEstadisticoActivo;
+    QString ultimaEntidadSeleccionada;
     int numeroPeriodos;
-    bool animacion;
-    QTimer seconds;
+    QTimer refrecadoDeDatosEnBurbujas;
+    QTimer *actualizarMapa;
     ControladorDeBurbujasPrivate* clasePrivada;
     int zoomInicial;
 };

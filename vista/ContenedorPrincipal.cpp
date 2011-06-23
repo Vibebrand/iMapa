@@ -73,18 +73,39 @@ ContenedorPrincipal::ContenedorPrincipal(QObject *parent, QWidget *awidgetDeFond
 
     representacionVista->setScene(escena);
     representacionVista->setRenderHint(QPainter::Antialiasing);
-    representacionVista->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
+    representacionVista->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     escena->addWidget(awidgetDeFondo)->setAcceptTouchEvents(true);
 }
 
-void ContenedorPrincipal::agregarWidget(QString nombre, QWidget *widget)
+void ContenedorPrincipal::agregarWidget(QString nombre, IWidgetInterno *widget, ContenedorPrincipal::Posicion posicion)
 {
-    WidgetInterno wi = WidgetInterno(widget, escena->addWidget(widget));
-    wi.proxy->setAcceptTouchEvents(true);
-    if(!nombre.compare("controladorPiramidePoblacional")) // TODO Evitar hardcode
-        wi.proxy->translate(0, escena->height() - widget->height());
-    widgetsInternos.insert(nombre, wi);
+    widget->widget()->setObjectName(nombre);
+    widget->establecerProxy(escena->addWidget(widget->widget()));
+    widget->proxy()->setAcceptTouchEvents(true);
+    int x =0;
+    int y = 0;
+
+    switch(posicion)
+    {
+        case IzquierdaArriba:
+                break;
+        case IzquierdaAbajo:
+            y= representacionVista->height() - widget->widget()->height();
+            break;
+        case DerechaArriba:
+            x= representacionVista->width() - widget->widget()->width();
+            break;
+        case DerechaAbajo:
+            x= representacionVista->width() - widget->widget()->width();
+            y= representacionVista->height() - widget->widget()->height();
+            break;
+    }
+
+    //if(!nombre.compare("controladorPiramidePoblacional")) // TODO Evitar hardcode
+      //  widget->proxy()->translate(0, escena->height() - widget->widget()->height());
+    widget->proxy()->setPos(QPointF(x,y));
+    widgetsInternos.insert(nombre, widget);
 }
 
 ContenedorPrincipal::~ContenedorPrincipal()

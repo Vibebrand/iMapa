@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     servicio/ServicioInformacionEstadistica.cpp \
     vista/controladorcontrollineadetiempo.cpp \
     vista/controladorpiramidepoblacional.cpp \
-    modelo/PoblacionPorRangoDeEdad.cpp
+    modelo/PoblacionPorRangoDeEdad.cpp \
+    vista/RepresentacionDeVista.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
@@ -31,7 +32,10 @@ HEADERS  += \
     modelo/PoblacionPorRangoDeEdad.h \
     servicio/ServicioInformacionEstadistica.h \
     vista/controladorcontrollineadetiempo.h \
-    vista/controladorpiramidepoblacional.h
+    vista/controladorpiramidepoblacional.h \
+    vista/IContenedorWidgets.h \
+    vista/RepresentacionDeVista.h \
+    vista/IWidgetInterno.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)

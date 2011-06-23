@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QDeclarativeView>
+#include "RepresentacionDeVista.h"
+#include "IWidgetInterno.h"
+#include "modelo/EntidadFederativa.h"
 
 class ControladorControlLineaDeTiempo : public QObject
 {
@@ -14,8 +17,9 @@ public:
     Q_INVOKABLE void atrasClicked();
     Q_INVOKABLE void playClicked();
     Q_INVOKABLE void adelanteClicked();
+    Q_INVOKABLE void cambiaEstado();
 
-    QWidget * widget();
+    IWidgetInterno * widget();
 
 signals:
     void atras();
@@ -23,9 +27,13 @@ signals:
     void adelante();
 
 public slots:
+    void cambioDePeriodo(int indicador);
+    void estableceModelo(EntidadFederativa* entidad);
 
 private:
-    QDeclarativeView view;
+    RepresentacionDeVista view;
+    int anguloDeRotacion;
+    int periodoActivo;
 
 };
 

@@ -3,12 +3,22 @@
 #include <QDebug>
 #include <QDeclarativeContext>
 
+
 #include "controladorcontrollineadetiempo.h"
 
 ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent) :
     QObject(parent)
 {
+    anguloDeRotacion=80;
+    periodoActivo=1900;
     view.rootContext()->setContextProperty("delegado", this);
+    view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
+    view.rootContext()->setContextProperty("_nombreEntidad", "");
+    view.rootContext()->setContextProperty("_animacion", "");
+    view.rootContext()->setContextProperty("_porcentajeNacional", "");
+    view.rootContext()->setContextProperty("_numeroPoblacion", "");
+    view.rootContext()->setContextProperty("_periodoActivo", "1900");
+
     view.setSource(QUrl("qrc:/qml/ControlLineaDeTiempo.qml"));
 
     view.setAttribute(Qt::WA_TranslucentBackground);
@@ -18,6 +28,7 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
 void ControladorControlLineaDeTiempo::atrasClicked()
 {
     emit atras();
+
 }
 
 void ControladorControlLineaDeTiempo::playClicked()
@@ -31,7 +42,37 @@ void ControladorControlLineaDeTiempo::adelanteClicked()
     emit adelante();
 }
 
-QWidget * ControladorControlLineaDeTiempo::widget()
+IWidgetInterno * ControladorControlLineaDeTiempo::widget()
 {
     return &view;
+}
+
+void ControladorControlLineaDeTiempo::cambioDePeriodo(int indicador)
+{
+    //TODO: refactoring
+    anguloDeRotacion =(indicador)?anguloDeRotacion-=21:anguloDeRotacion+=21;
+    periodoActivo =(!indicador)?periodoActivo-=10:periodoActivo+=10;
+    view.rootContext()->setContextProperty("rotacion", anguloDeRotacion);
+     view.rootContext()->setContextProperty("_periodoActivo",  (periodoActivo==1920)?1921:periodoActivo );
+}
+
+void ControladorControlLineaDeTiempo::estableceModelo(EntidadFederativa *entidad)
+{
+    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+    QString porcentaje =  QString("%L2").arg( entidad->porcentajeNacionalDePoblacion);
+    long n2 = entidad->totalDePoblacion;
+    QString numeroPoblacion = QString("%L2").arg( n2);
+
+    view.rootContext()->setContextProperty("_nombreEntidad", entidad->nombre);
+    view.rootContext()->setContextProperty("_porcentajeNacional", porcentaje+"%");
+    view.rootContext()->setContextProperty("_numeroPoblacion", numeroPoblacion+" hbt");
+    view.rootContext()->setContextProperty("_animacion", "animacionBarraCreciendo");
+}
+
+void ControladorControlLineaDeTiempo::cambiaEstado()
+{
+    view.rootContext()->setContextProperty("_animacion", "animacionBarraDecreciendo");
+    view.rootContext()->setContextProperty("_nombreEntidad", "");
+    view.rootContext()->setContextProperty("_porcentajeNacional", "");
+    view.rootContext()->setContextProperty("_numeroPoblacion", "");
 }

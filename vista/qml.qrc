@@ -7,5 +7,17 @@
         <file alias="backButton.png">Imagenes/backButton.png</file>
         <file alias="forwardButton.png">Imagenes/forwardButton.png</file>
         <file alias="playButton.png">Imagenes/playButton.png</file>
+        <file alias="anios.png">Imagenes/anios.png</file>
+        <file alias="barra.png">Imagenes/barra.png</file>
+        <file alias="fondo.png">Imagenes/fondo.png</file>
+        <file alias="medio.png">Imagenes/medio.png</file>
+        <file alias="mediocirclo.png">Imagenes/mediocirclo.png</file>
+        <file alias="nxt.png">Imagenes/nxt.png</file>
+        <file alias="paly.png">Imagenes/paly.png</file>
+        <file alias="rtrn.png">Imagenes/rtrn.png</file>
+        <file alias="barraHombres.png">Imagenes/barraHombres.png</file>
+        <file alias="barraMujeres.png">Imagenes/barraMujeres.png</file>
+        <file alias="fondo_piramide.png">Imagenes/fondo_piramide.png</file>
+        <file alias="transparencia_piramide.png">Imagenes/transparencia_piramide.png</file>
     </qresource>
 </RCC>

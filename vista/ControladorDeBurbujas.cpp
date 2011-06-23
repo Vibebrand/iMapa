@@ -8,21 +8,55 @@ class ControladorDeBurbujasPrivate
 public:
     double _porcentajeMaximoActivo;
     double radioMaximo;
+
+    EntidadFederativa *entidadConPoblacionMaximaEntrePeriodos;
+
     ControladorDeBurbujasPrivate();
     void obtenerPorcentajeMaximoActivo(double numeroTotalDePoblacionActiva, const QList<EntidadFederativa *>* entidadesFederativasActivaas );
     double asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad);
+
+    void obtenerPoblacionMaximaEntreLosPeriodos(IServicioInformacionEstadistica* servicio);
+    double asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(EntidadFederativa* entidad);
 };
 
 ControladorDeBurbujasPrivate::ControladorDeBurbujasPrivate()
 {
     _porcentajeMaximoActivo=0;
     radioMaximo =50;
+    entidadConPoblacionMaximaEntrePeriodos=0;
+
+
+}
+
+void ControladorDeBurbujasPrivate::obtenerPoblacionMaximaEntreLosPeriodos(IServicioInformacionEstadistica *servicio)
+{
+    int numueroPeriodos = servicio->obtenerPeriodos();
+    const QList<EntidadFederativa *>* entidadesFederativasActivas;
+    for(int i=1; i<=numueroPeriodos;i++)
+    {
+        entidadesFederativasActivas = servicio->obtenerPeriodo(i);
+        foreach (EntidadFederativa* entidad, (*entidadesFederativasActivas))
+        {
+            if(entidadConPoblacionMaximaEntrePeriodos)
+            {
+                if(entidadConPoblacionMaximaEntrePeriodos->totalDePoblacion < entidad->totalDePoblacion  )
+                    entidadConPoblacionMaximaEntrePeriodos = entidad;
+            }else
+                entidadConPoblacionMaximaEntrePeriodos=entidad;
+        }
+    }
+}
+
+double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(EntidadFederativa *entidad)
+{
+    double radio =  ( entidad->totalDePoblacion * radioMaximo)/ entidadConPoblacionMaximaEntrePeriodos->totalDePoblacion;
+    return radio;
 }
 
 double ControladorDeBurbujasPrivate::asignarRadioEnFuncionPorcentajeMaximoActivo(EntidadFederativa* entidad)
 {
     double _radio = (entidad->porcentajeNacionalDePoblacion * radioMaximo ) / _porcentajeMaximoActivo;
-    qDebug()<< entidad->nombre<<"= "<< entidad->totalDePoblacion<<" " << entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
+    //qDebug()<< entidad->nombre<<"= "<< entidad->totalDePoblacion<<" " << entidad->porcentajeNacionalDePoblacion<< "*" << radioMaximo << "/" << _porcentajeMaximoActivo << "=" << _radio;
     return _radio;
 }
 
@@ -32,7 +66,7 @@ void ControladorDeBurbujasPrivate::obtenerPorcentajeMaximoActivo(double numeroTo
     {
         entidad->porcentajeNacionalDePoblacion = (entidad->totalDePoblacion * 100) / numeroTotalDePoblacionActiva;
         _porcentajeMaximoActivo=(_porcentajeMaximoActivo < entidad->porcentajeNacionalDePoblacion)?entidad->porcentajeNacionalDePoblacion: _porcentajeMaximoActivo;
-        qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion << "ntpa"<< numeroTotalDePoblacionActiva ;
+        //qDebug()<< entidad->nombre << " poblacion=" << entidad->totalDePoblacion << " pocentaje="<< entidad->porcentajeNacionalDePoblacion << "ntpa"<< numeroTotalDePoblacionActiva ;
     }
 }
 
@@ -42,19 +76,22 @@ ControladorDeBurbujas::ControladorDeBurbujas(IServicioInformacionEstadistica * s
     _controladorPluginBurbujas(0), _entidadesFederativasActivaas(0)
 {
     clasePrivada = new ControladorDeBurbujasPrivate;
-    periodoEstadisticoActivo = 0;
+    periodoEstadisticoActivo = 1;
     numeroPeriodos = _servicioInformacionEstadistica->obtenerPeriodos();
-    animacion = false;
     zoomInicial=0;
+    actualizarMapa = new QTimer();
+    actualizarMapa->setInterval(10);
+    refrecadoDeDatosEnBurbujas.setInterval(4000);
+    clasePrivada->obtenerPoblacionMaximaEntreLosPeriodos(_servicioInformacionEstadistica);
+    QObject::connect(this, SIGNAL(cambioDePeriodo()), this, SLOT(agregarBurbujasAlMapa()));
+    QObject::connect(this, SIGNAL(cambioDePeriodo()), this, SLOT(actualizarEntidadSeleccionada()));
+    QObject::connect(&refrecadoDeDatosEnBurbujas,SIGNAL(timeout()), this, SLOT(cmdAdelantarPeriodo()));
 }
 
 void ControladorDeBurbujas::agregarBurbujasAlMapa()
 {
     if(_entidadesFederativasActivaas)
         delete _entidadesFederativasActivaas;
-
-    if(animacion)
-        cmdAdelantarPeriodo();
 
     _entidadesFederativasActivaas = _servicioInformacionEstadistica->obtenerPeriodo(periodoEstadisticoActivo);
     clasePrivada->obtenerPorcentajeMaximoActivo(
@@ -74,46 +111,56 @@ void ControladorDeBurbujas::agregarBurbujasAlMapa()
                 _delegadosObjetoBurbuja[burbuja.nombre] = _controladorPluginBurbujas->agregarElemento(burbuja);
         }
         _delegadosObjetoBurbuja[entidad->nombre]->asignarRadioAElemento(
-                    clasePrivada->asignarRadioEnFuncionPorcentajeMaximoActivo(
-                        entidad));
+                            clasePrivada->asignarRadioEnFuncionPoblacionMaximaEntrePeriodos(entidad));
+
     }
 }
 
 void ControladorDeBurbujas::cmdIniciarSecuenciaDePeriodos()
 {
-    animacion = true;
-    qDebug()<< "iniciada secuencia";
-    seconds.setInterval(5000);
+
     agregarBurbujasAlMapa();
-    QObject::connect(&seconds,SIGNAL(timeout()), this, SLOT(agregarBurbujasAlMapa()));
-    seconds.start();
+    if(!refrecadoDeDatosEnBurbujas.isActive())
+        refrecadoDeDatosEnBurbujas.start();
+    if(!actualizarMapa->isActive())
+        actualizarMapa->start();
 }
 
 void ControladorDeBurbujas::cmdAdelantarPeriodo()
 {
     if(periodoEstadisticoActivo < numeroPeriodos)
     {
-        ++periodoEstadisticoActivo;
-        qDebug()<<periodoEstadisticoActivo;
-        if(!animacion)
-            agregarBurbujasAlMapa();
+        periodoEstadisticoActivo++;
+        emit cambioDePeriodo();
+        emit cambioDePeriodo(1);
+        qDebug()<< periodoEstadisticoActivo;
     }
     else
     {
-        animacion = false;
-        seconds.stop();
+        refrecadoDeDatosEnBurbujas.stop();
+        actualizarMapa->stop();
     }
 }
 
 
 void ControladorDeBurbujas::cmdAtrasarPerioro()
 {
-    animacion = false;
+    refrecadoDeDatosEnBurbujas.stop();
+    if(!actualizarMapa->isActive())
+        actualizarMapa->start();
     if(periodoEstadisticoActivo>1)
     {
         --periodoEstadisticoActivo;
-        agregarBurbujasAlMapa();
+        emit cambioDePeriodo();
+        emit cambioDePeriodo(0);
+        qDebug()<<"atras="<<periodoEstadisticoActivo;
+    }else
+    {
+        periodoEstadisticoActivo=1;
+        emit cambioDePeriodo();
+        actualizarMapa->stop();
     }
+
 }
 
 void ControladorDeBurbujas::elementoSeleccionado(QString nombre)
@@ -122,9 +169,17 @@ void ControladorDeBurbujas::elementoSeleccionado(QString nombre)
         foreach(EntidadFederativa * entidad, (*_entidadesFederativasActivaas))
             if(!entidad->nombre.compare(nombre))
             {
+                ultimaEntidadSeleccionada = nombre;
                 emit entidadSeleccionada(entidad);
                 break;
             }
+}
+
+void ControladorDeBurbujas::actualizarEntidadSeleccionada()
+{
+    if(!ultimaEntidadSeleccionada.isNull() &&
+            !ultimaEntidadSeleccionada.isEmpty())
+        elementoSeleccionado(ultimaEntidadSeleccionada);
 }
 
 void ControladorDeBurbujas::asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas *controladorPluginBurbujas)
@@ -139,16 +194,25 @@ ControladorDeBurbujas::~ControladorDeBurbujas()
         delete _entidadesFederativasActivaas;
     if(clasePrivada)
         delete clasePrivada;
+    if(actualizarMapa)
+        delete actualizarMapa;
 }
 
+//TODO corregir esto
 void ControladorDeBurbujas::actualizarRadio(int zoom)
 {
-    if( zoom > zoomInicial)
-        clasePrivada->radioMaximo+=10;
-    if( zoom < zoomInicial)
-        clasePrivada->radioMaximo=(clasePrivada->radioMaximo<0)?0:clasePrivada->radioMaximo-=10;
+    if(zoomInicial)
+        zoomInicial = zoom-1000;
+    zoom= zoom-1000;
 
-    zoomInicial =zoom;
-    agregarBurbujasAlMapa();
-    qDebug()<< "zoom="<< zoom << " radio=" << clasePrivada->radioMaximo;
+    double radioResultante  = (zoom * 250 )/1100;
+    clasePrivada->radioMaximo =( (radioResultante<= 70) || ( zoom <= zoomInicial)  )?50:radioResultante;
+
+    if(!_delegadosObjetoBurbuja.isEmpty())
+        agregarBurbujasAlMapa();
+}
+
+QTimer* ControladorDeBurbujas::periodoDeActualizacionDelMapa()
+{
+    return actualizarMapa;
 }
