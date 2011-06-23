@@ -66,7 +66,7 @@ Rectangle {
                 {
                     property:"width";
                     easing.type:Easing.Linear;
-                    duration:1500
+                    duration:1000
                 }
             }
         ]
