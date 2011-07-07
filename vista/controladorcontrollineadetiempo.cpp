@@ -23,6 +23,12 @@ ControladorControlLineaDeTiempo::ControladorControlLineaDeTiempo(QObject *parent
 
     view.setAttribute(Qt::WA_TranslucentBackground);
     view.setStyleSheet("background:transparent;");
+
+    comandos.insert(1, "reproducir");
+    comandos.insert(2, "anterior");
+    comandos.insert(3, "siguiente");
+    comandos.insert(-1, "inegi");
+
 }
 
 void ControladorControlLineaDeTiempo::atrasClicked()
@@ -75,4 +81,36 @@ void ControladorControlLineaDeTiempo::cambiaEstado()
     view.rootContext()->setContextProperty("_nombreEntidad", "");
     view.rootContext()->setContextProperty("_porcentajeNacional", "");
     view.rootContext()->setContextProperty("_numeroPoblacion", "");
+}
+
+QString ControladorControlLineaDeTiempo::obtenIdentificador()
+{
+    return "linea de tiempo";
+}
+
+QMap<int, QString> ControladorControlLineaDeTiempo::obtenComandos()
+{
+    return comandos;
+}
+
+bool ControladorControlLineaDeTiempo::comandoSeleccionado(QString idComandoString)
+{
+    bool ok = false;
+    int idComando = idComandoString.toInt(&ok);
+    if(ok)
+    {
+        switch(idComando)
+        {
+        case 1:
+            emit play();
+            return true;
+        case 2:
+            emit atras();
+            return true;
+        case 3:
+            emit adelante();
+            return true;
+        }
+    }
+    return false;
 }
