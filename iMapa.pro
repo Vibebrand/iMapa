@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     modelo/PoblacionPorRangoDeEdad.cpp \
     vista/RepresentacionDeVista.cpp \
     servicio/comunicacionRed/httpdaemon.cpp \
-    controlador/ControaldorVoz.cpp
+    controlador/ControaldorVoz.cpp \
+    controlador/controlmaestro.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
@@ -41,7 +42,8 @@ HEADERS  += \
     servicio/comunicacionRed/iservicioelementos.h \
     servicio/comunicacionRed/httpdaemon.h \
     controlador/ControladorVoz.h \
-    servicio/comunicacionRed/IDelegadoComando.h
+    servicio/comunicacionRed/IDelegadoComando.h \
+    controlador/controlmaestro.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)
