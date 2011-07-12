@@ -60,6 +60,7 @@ void ControlMaestro::configurarMapa()
 void ControlMaestro::registrarElementosControlDeVoz()
 {
     controladorVoz->registraDelegadoComando(lineaDeTiempo);
+    controladorVoz->registraDelegadoComando(mapa);
 }
 
 void ControlMaestro::mostrar()
