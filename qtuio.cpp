@@ -1,10 +1,10 @@
 /*
-	qTUIO - TUIO Interface for Qt
+        qTUIO - TUIO Interface for Qt
 
-	Original Version by Martin Blankenburg <martin.blankenburg@imis.uni-luebeck.de>
-	Integrated into qTUIO by x29a <0.x29a.0@gmail.com>
+        Original Version by Martin Blankenburg <martin.blankenburg@imis.uni-luebeck.de>
+        Integrated into qTUIO by x29a <0.x29a.0@gmail.com>
 
-	This program is free software: you can redistribute it and/or modify
+        This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -43,16 +43,21 @@
 #define OFFSETY 0
 #endif
 
-QTuio::QTuio(QObject *parent)
+QTuio::QTuio(QObject * parent) : QThread(parent)
 {
-    theMainWindow = qobject_cast<QWidget *>(parent);
-    theView = qobject_cast<QGraphicsView *>(parent);
+
+}
+
+void QTuio::enlazar(QObject *elemento)
+{
+    theMainWindow = qobject_cast<QWidget *>(elemento);
+    theView = qobject_cast<QGraphicsView *>(elemento);
     if (theView)
     {
         theScene = theView->scene();
         qDebug() << "Si es theView, theScene = " << theScene;
     } else
-        theScene = qobject_cast<QGraphicsScene *>(parent);
+        theScene = qobject_cast<QGraphicsScene *>(elemento);
 }
 
 QTuio::~QTuio()
@@ -134,7 +139,7 @@ bool QTuio::tuioToQt(TUIO::TuioCursor *tcur, QEvent::Type eventType)
     Qt::TouchPointStates touchPointStates;
     switch (eventType) {
     case QEvent::TouchBegin: {
-	    touchPointStates = Qt::TouchPointPressed;
+            touchPointStates = Qt::TouchPointPressed;
 
             touchPoint.setState(Qt::TouchPointPressed);
             touchPoint.setStartNormalizedPos(normPos);
@@ -216,18 +221,20 @@ bool QTuio::tuioToQt(TUIO::TuioCursor *tcur, QEvent::Type eventType)
 
 void QTuio::addTuioCursor(TUIO::TuioCursor *tcur)
 {
-	QTuio::tuioToQt(tcur, QEvent::TouchBegin);
+        QTuio::tuioToQt(tcur, QEvent::TouchBegin);
 }
 
 void QTuio::updateTuioCursor(TUIO::TuioCursor *tcur)
 {
-	QTuio::tuioToQt(tcur, QEvent::TouchUpdate);
+        QTuio::tuioToQt(tcur, QEvent::TouchUpdate);
 }
 
 void QTuio::removeTuioCursor(TUIO::TuioCursor *tcur)
 {
-	QTuio::tuioToQt(tcur, QEvent::TouchEnd);
+        QTuio::tuioToQt(tcur, QEvent::TouchEnd);
 }
 
 
 void  QTuio::refresh(TUIO::TuioTime frameTime) {}
+
+
