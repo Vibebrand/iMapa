@@ -15,6 +15,7 @@ ControlMaestro::ControlMaestro(QObject *parent)
     configurarMapa();
     enlazarPluginAControlador(mapa, controladorBurbujas);
     conectarElementos();
+    registrarElementosControlDeVoz();
 }
 
 ControlMaestro::~ControlMaestro()
@@ -54,6 +55,11 @@ void ControlMaestro::configurarMapa()
     mapa->inputHandler()->setMouseButtonPopupEnabled(Qt::LeftButton, false);
     mapa->inputHandler()->setMouseButtonPopupEnabled(Qt::RightButton, false);
     mapa->centerOn(-102.71667, 21.85);
+}
+
+void ControlMaestro::registrarElementosControlDeVoz()
+{
+    controladorVoz->registraDelegadoComando(lineaDeTiempo);
 }
 
 void ControlMaestro::mostrar()
