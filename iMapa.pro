@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui declarative opengl sql
+QT       += core gui declarative opengl sql network
 TARGET = iMapa
 TEMPLATE = app
 
@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     vista/controladorcontrollineadetiempo.cpp \
     vista/controladorpiramidepoblacional.cpp \
     modelo/PoblacionPorRangoDeEdad.cpp \
-    vista/RepresentacionDeVista.cpp
+    vista/RepresentacionDeVista.cpp \
+    servicio/comunicacionRed/httpdaemon.cpp \
+    controlador/ControaldorVoz.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
@@ -35,7 +37,11 @@ HEADERS  += \
     vista/controladorpiramidepoblacional.h \
     vista/IContenedorWidgets.h \
     vista/RepresentacionDeVista.h \
-    vista/IWidgetInterno.h
+    vista/IWidgetInterno.h \
+    servicio/comunicacionRed/iservicioelementos.h \
+    servicio/comunicacionRed/httpdaemon.h \
+    controlador/ControladorVoz.h \
+    servicio/comunicacionRed/IDelegadoComando.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)

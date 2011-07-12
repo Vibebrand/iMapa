@@ -13,8 +13,11 @@
 #include "vista/controladorcontrollineadetiempo.h"
 #include "vista/IDelegadoControladorPluginBurbujas.h"
 #include "vista/controladorpiramidepoblacional.h"
-#include "servicio/IServicioInformacionEstadistica.h"
 #include "vista/ControladorDeBurbujas.h"
+#include "servicio/IServicioInformacionEstadistica.h"
+#include "servicio/comunicacionRed/httpdaemon.h"
+#include "controlador/ControladorVoz.h"
+
 #include "qtuio.h"
 
 void enlazarPluginAControlador(Mapa * mapWidget, ControladorDeBurbujas * controlador);
@@ -59,6 +62,13 @@ int main(int argc, char *argv[])
 
     QObject::connect(controladorBurbujas->periodoDeActualizacionDelMapa(),SIGNAL(timeout()), map, SLOT(update()));
     QObject::connect(map, SIGNAL(zoomChanged(int)),controladorBurbujas, SLOT(actualizarRadio(int)));
+
+
+    ControladorVoz controladorVoz;
+    HttpDaemon demonio(&controladorVoz, 8080);
+    controladorVoz.registraDelegadoComando(lineaDeTiempo);
+
+    demonio.resume();
 
     int salida = a.exec();
 

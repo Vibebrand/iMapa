@@ -7,8 +7,9 @@
 #include "RepresentacionDeVista.h"
 #include "IWidgetInterno.h"
 #include "modelo/EntidadFederativa.h"
+#include "servicio/comunicacionRed/IDelegadoComando.h"
 
-class ControladorControlLineaDeTiempo : public QObject
+class ControladorControlLineaDeTiempo : public QObject, public IDelegadoComando
 {
     Q_OBJECT
 public:
@@ -21,6 +22,10 @@ public:
 
     IWidgetInterno * widget();
 
+    QString obtenIdentificador();
+    QMap<int, QString> obtenComandos();
+    bool comandoSeleccionado(QString);
+
 signals:
     void atras();
     void play();
@@ -31,6 +36,8 @@ public slots:
     void estableceModelo(EntidadFederativa* entidad);
 
 private:
+    QMap<int, QString> comandos;
+
     RepresentacionDeVista view;
     int anguloDeRotacion;
     int periodoActivo;
