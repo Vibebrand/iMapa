@@ -8,7 +8,7 @@
 #include "RenderPlugin.h"
 #include "MarbleWidgetInputHandler.h"
 
-#include "vista/mapa.h"
+#include "vista/ControladorMapa.h"
 #include "vista/ContenedorPrincipal.h"
 #include "vista/controladorcontrollineadetiempo.h"
 #include "vista/IDelegadoControladorPluginBurbujas.h"
@@ -32,7 +32,7 @@ signals:
 public slots:
 
 private:
-    Mapa * mapa;
+    ControladorMapa * mapa;
 
     IServicioInformacionEstadistica * servicioInfoEstadistica;
     ControladorDeBurbujas * controladorBurbujas;
@@ -46,7 +46,8 @@ private:
 
     void conectarElementos();
     void configurarMapa();
-    void enlazarPluginAControlador(Mapa * mapWidget, ControladorDeBurbujas * controlador);
+    void registrarElementosControlDeVoz();
+    void enlazarPluginAControlador(ControladorMapa * mapWidget, ControladorDeBurbujas * controlador);
 };
 
 #endif // CONTROLMAESTRO_H

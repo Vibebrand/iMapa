@@ -11,7 +11,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     vista/ContenedorPrincipal.cpp \
-    vista/mapa.cpp \
     vista/ControladorDeBurbujas.cpp \
     servicio/ServicioInformacionEstadistica.cpp \
     vista/controladorcontrollineadetiempo.cpp \
@@ -20,12 +19,12 @@ SOURCES += main.cpp\
     vista/RepresentacionDeVista.cpp \
     servicio/comunicacionRed/httpdaemon.cpp \
     controlador/ControaldorVoz.cpp \
-    controlador/controlmaestro.cpp
+    controlador/controlmaestro.cpp \
+    vista/ControladorMapa.cpp
 
 HEADERS  += \
     vista/ContenedorPrincipal.h \
     vista/IGestionaEvento.h \
-    vista/mapa.h \
     vista/IDelegadoControladorPluginBurbujas.h \
     vista/IDelegadoGestorSeleccion.h \
     vista/IDelegadoObjetoBurbuja.h \
@@ -43,7 +42,8 @@ HEADERS  += \
     servicio/comunicacionRed/httpdaemon.h \
     controlador/ControladorVoz.h \
     servicio/comunicacionRed/IDelegadoComando.h \
-    controlador/controlmaestro.h
+    controlador/controlmaestro.h \
+    vista/ControladorMapa.h
 
 win32 {
    INCLUDEPATH += $$quote(C:/Program Files/marble/include/marble)

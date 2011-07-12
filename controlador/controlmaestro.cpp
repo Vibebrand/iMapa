@@ -2,7 +2,7 @@
 
 ControlMaestro::ControlMaestro(QObject *parent)
     : QObject(parent),
-      mapa(new Mapa),
+      mapa(new ControladorMapa),
       servicioInfoEstadistica(new ServicioInformacionEstadistica),
       controladorBurbujas(new ControladorDeBurbujas(servicioInfoEstadistica)),
       controladorPiramidePoblacional(new ControladorPiramidePoblacional),
@@ -73,7 +73,7 @@ void ControlMaestro::mostrar()
     demonio->resume();
 }
 
-void ControlMaestro::enlazarPluginAControlador(Mapa * mapWidget, ControladorDeBurbujas * controlador)
+void ControlMaestro::enlazarPluginAControlador(ControladorMapa * mapWidget, ControladorDeBurbujas * controlador)
 {
     QList<Marble::RenderPlugin *> renderPlugins = mapWidget->map()->renderPlugins();
     for(QList<Marble::RenderPlugin *>::iterator it = renderPlugins.begin(); it != renderPlugins.end(); ++it)

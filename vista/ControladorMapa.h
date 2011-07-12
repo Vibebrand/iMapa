@@ -5,11 +5,11 @@
 #include <MarbleWidget.h>
 #include "IGestionaEvento.h"
 
-class Mapa : public Marble::MarbleWidget, public IGestionaEvento
+class ControladorMapa : public Marble::MarbleWidget, public IGestionaEvento
 {
     Q_OBJECT
 public:
-    explicit Mapa();
+    explicit ControladorMapa();
     bool gestionaEvento(QEvent * event);
 
 public slots:
