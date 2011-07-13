@@ -26,10 +26,11 @@ class ControladorDeBurbujas:public QObject, public IDelegeadoGestorSeleccion
 public:
     ControladorDeBurbujas(IServicioInformacionEstadistica *, QObject *parent = 0);
     ~ControladorDeBurbujas();
-    void elementoSeleccionado(QString nombre);
+
     void asignarDelegadoControladorPluginBurbujas(IDelegadoControladorPluginBurbujas* controladorPluginBurbujas);
     QTimer* periodoDeActualizacionDelMapa();
 public slots:
+    void elementoSeleccionado(QString nombre);
     void cmdIniciarSecuenciaDePeriodos();
     void cmdAdelantarPeriodo();
     void cmdAtrasarPerioro();

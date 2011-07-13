@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     QObject::connect(controladorBurbujas, SIGNAL(entidadSeleccionada(EntidadFederativa*)), controladorPiramidePoblacional, SLOT(estableceModelo(EntidadFederativa*)));
     QObject::connect(controladorBurbujas, SIGNAL(entidadSeleccionada(EntidadFederativa*)), lineaDeTiempo, SLOT(estableceModelo(EntidadFederativa*)));
     map->setObjectName("mapa");
-    map->setMapThemeId("earth/srtm/srtm.dgml");
+    map->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     map->setMapQuality(Marble::LowQuality,Marble::Still);
     map->setMapQuality(Marble::LowQuality, Marble::Animation);
     map->inputHandler()->setMouseButtonPopupEnabled(Qt::LeftButton, false);
