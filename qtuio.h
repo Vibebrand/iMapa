@@ -1,10 +1,10 @@
 /*
-	qTUIO - TUIO Interface for Qt
+        qTUIO - TUIO Interface for Qt
 
-	Original Version by Martin Blankenburg <martin.blankenburg@imis.uni-luebeck.de>
-	Integrated into qTUIO by x29a <0.x29a.0@gmail.com>
+        Original Version by Martin Blankenburg <martin.blankenburg@imis.uni-luebeck.de>
+        Integrated into qTUIO by x29a <0.x29a.0@gmail.com>
 
-	This program is free software: you can redistribute it and/or modify
+        This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -45,6 +45,7 @@ public:
     explicit QTuio(QObject *parent = 0);
     ~QTuio();
 
+    void enlazar(QObject * elemento);
     void run();
 
     virtual void addTuioObject(TUIO::TuioObject *tobj);
